@@ -1,0 +1,25 @@
+{
+  "name": "bibliopus",
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/mobile/*",
+    "apps/web/*",
+    "apps/api/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev --parallel",
+    "lint": "turbo run lint"
+  },
+  "devDependencies": {
+    "@bibliopus/eslint-config-nuxt": "*",
+    "turbo": "latest"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {},
+  "packageManager": "npm@8.19.3"
+}
