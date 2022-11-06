@@ -8,14 +8,5 @@ module.exports = {
     'turbo',
     '@antfu',
   ],
-  parserOptions: {
-    ecmaVersion: 'latest',
-    parser: '@typescript-eslint/parser',
-    sourceType: 'module',
-  },
-  plugins: [
-    'vue',
-    '@typescript-eslint',
-  ],
   rules: {},
 }
