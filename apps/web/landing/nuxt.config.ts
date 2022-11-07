@@ -3,7 +3,4 @@ export default defineNuxtConfig({
   typescript: {
     shim: false,
   },
-  devServer: {
-    port: 3000,
-  },
 })
