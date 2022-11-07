@@ -1,0 +1,10 @@
+.DS_Store
+*.local
+dist
+node_modules
+.idea/
+*.log
+
+# Generated auto-import types
+auto-imports.d.ts
+components.d.ts
