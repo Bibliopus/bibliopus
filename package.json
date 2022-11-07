@@ -11,10 +11,12 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
-    "lint": "turbo run lint"
+    "lint": "turbo run lint",
+    "ionic:build": "npm run build",
+    "ionic:serve": "npm run dev"
   },
   "devDependencies": {
-    "@bibliopus/eslint-config-nuxt": "*",
+    "@bibliopus/eslint-config-vue": "*",
     "turbo": "latest"
   },
   "engines": {

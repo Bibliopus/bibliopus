@@ -10,6 +10,6 @@
   },
   "devDependencies": {
     "nuxt": "3.0.0-rc.13",
-    "@bibliopus/eslint-config-nuxt": "*"
+    "@bibliopus/eslint-config-vue": "*"
   }
 }
