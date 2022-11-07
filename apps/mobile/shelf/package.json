@@ -1,5 +1,5 @@
 {
-  "name": "@bibliopus/buddy",
+  "name": "@bibliopus/shelf",
   "type": "module",
   "private": true,
   "scripts": {
@@ -11,6 +11,8 @@
     "typecheck": "vue-tsc --noEmit"
   },
   "dependencies": {
+    "@capacitor/cli": "^4.4.0",
+    "@capacitor/core": "^4.4.0",
     "@vueuse/core": "^9.4.0",
     "@vueuse/head": "^0.9.8",
     "pinia": "^2.0.23",
