@@ -1,5 +1,5 @@
 {
-  "name": "backend",
+  "name": "books",
   "private": true,
   "scripts": {
     "test": "vitest",
