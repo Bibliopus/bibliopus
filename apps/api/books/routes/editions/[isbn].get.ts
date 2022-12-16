@@ -1,26 +1,27 @@
-import type { Author, Edition, Publisher } from '~/types/book';
+import type { Author, Edition, Genre } from '~/types/book';
 
 export default defineEventHandler(async (event) => {
-  const response = await fetch(`https://openlibrary.org/books/${event.context.params.isbn}.json`);
+  const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${event.context.params.isbn}`);
   const json = await response.json();
-  if (json.type.key === '/type/edition') {
-    const authors: Author[] = await Promise.all(json.authors.map(async (author) => {
-      const details = await (await fetch(`https://openlibrary.org/${author.key}.json`)).json();
-      return {
-        name: details.name,
-        isni: details.remote_ids.isni ?? undefined,
-        wikidata: details.remote_ids.wikidata ?? undefined,
-      } as Author;
-    }));
-    const publishers: Publisher[] = json.publishers.map(publisher => ({
-      name: publisher,
-    }));
+  const linkToVolume = json.items[0].selfLink;
+  const data = (await (await fetch(linkToVolume)).json()).volumeInfo;
 
-    return {
-      title: json.title,
-      authors,
-      publishers,
-    } as Edition;
-  }
-  return 'No book found';
+  const authors: Author[] = data.authors.map(author => ({ name: author }));
+  const genres: Genre[] = data.categories?.map(category => ({ name: category })) ?? [];
+
+  const getISBN = (type: string) => data.industryIdentifiers.find(
+    indentifier => indentifier.type === type,
+  ).identifier;
+
+  return {
+    isbn10: getISBN('ISBN_10'),
+    isbn13: getISBN('ISBN_13'),
+    title: data.title,
+    description: data.description,
+    authors,
+    publisher: data.publisher,
+    genres,
+    pageCount: data.pageCount,
+    releaseDate: data.publishedDate,
+  } as Edition;
 });

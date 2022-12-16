@@ -3,7 +3,8 @@ export interface Book {
 }
 
 export interface Edition {
-  isbn: string;
+  isbn10: string;
+  isbn13: string;
   title: string;
   book: Book;
   authors: Author[];
@@ -12,13 +13,11 @@ export interface Edition {
   pageCount: number;
   cover: string;
   genres: Genre[];
-  publishers: Publisher[];
+  publisher: Publisher;
 }
 
 export interface Author {
   name: string;
-  isni?: string;
-  wikidata?: string;
 }
 
 export interface Genre {
