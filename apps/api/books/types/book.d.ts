@@ -1,5 +1,6 @@
 export interface Book {
   editions: Edition[];
+  olkey: string;
 }
 
 export interface Edition {
@@ -12,7 +13,7 @@ export interface Edition {
   releaseDate: Date;
   pageCount: number;
   cover: string;
-  genres: Genre[];
+  subjects: Subject[];
   publisher: Publisher;
 }
 
@@ -20,7 +21,7 @@ export interface Author {
   name: string;
 }
 
-export interface Genre {
+export interface Subject {
   name: string;
 }
 
