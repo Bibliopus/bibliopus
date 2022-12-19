@@ -34,7 +34,7 @@ const getOpenLibraryData = async (isbn: string) => {
   const workResponse = await fetch(`https://openlibrary.org${data.works[0].key}.json`);
   const workData = await workResponse.json();
 
-  const subjects = workData.subjects ?? [];
+  const subjects = workData.subjects?.map(category => ({ name: category })) ?? [];
 
   return {
     subjects,
