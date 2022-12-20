@@ -11,6 +11,7 @@
     "typecheck": "vue-tsc --noEmit"
   },
   "dependencies": {
+    "@auth0/auth0-vue": "^1.0.2",
     "@capacitor/cli": "^4.4.0",
     "@capacitor/core": "^4.4.0",
     "@vueuse/core": "^9.4.0",
@@ -33,6 +34,6 @@
     "vite-plugin-inspect": "^0.7.5",
     "vite-plugin-pages": "^0.27.1",
     "vite-plugin-vue-layouts": "^0.7.0",
-    "vue-tsc": "^1.0.9"
+    "vue-tsc": "^1.0.14"
   }
 }
