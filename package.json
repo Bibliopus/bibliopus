@@ -16,7 +16,7 @@
     "ionic:serve": "npm run dev"
   },
   "devDependencies": {
-    "@bibliopus/eslint-config-vue": "*",
+    "@bibliopus/eslint-config": "*",
     "turbo": "latest"
   },
   "engines": {

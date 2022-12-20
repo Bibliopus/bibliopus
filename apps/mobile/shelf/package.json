@@ -20,7 +20,7 @@
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
-    "@bibliopus/eslint-config-vue": "*",
+    "@bibliopus/eslint-config": "*",
     "@iconify-json/carbon": "^1.1.9",
     "@vitejs/plugin-vue": "^3.2.0",
     "critters": "^0.0.16",
