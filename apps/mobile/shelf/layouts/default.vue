@@ -1,5 +1,6 @@
 <template>
   <div>
-    Hello world
+    <slot />
+    <p>dhqzudhqu</p>
   </div>
 </template>
