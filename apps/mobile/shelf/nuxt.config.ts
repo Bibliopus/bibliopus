@@ -31,4 +31,7 @@ export default defineNuxtConfig({
       'Inter': true,
     },
   },
+  nitro: {
+    preset: 'vercel',
+  },
 });
