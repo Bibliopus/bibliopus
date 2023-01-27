@@ -9,7 +9,10 @@ module.exports = {
     './app.vue',
   ],
   theme: {
-    extend: {},
+    fontFamily: {
+      serif: ['"DM Serif Display"'],
+      sans: ['"Inter"'],
+    },
   },
-  plugins: [],
+  plugins: [require('daisyui')],
 };

@@ -9,11 +9,14 @@
     "build": "nitropack build"
   },
   "devDependencies": {
+    "@bibliopus/eslint-config": "*",
     "@vitest/coverage-c8": "^0.25.2",
     "nanoid": "^4.0.0",
     "nitropack": "^1.0.0",
     "unstorage": "^1.0.1",
-    "vitest": "^0.25.2",
-    "@bibliopus/eslint-config": "*"
+    "vitest": "^0.25.2"
+  },
+  "dependencies": {
+    "@nozomuikuta/h3-cors": "^0.2.0"
   }
 }
