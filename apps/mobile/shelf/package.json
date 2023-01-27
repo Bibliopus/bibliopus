@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@capacitor/core": "^4.6.1",
-    "@headlessui/vue": "^1.7.7"
+    "@headlessui/vue": "^1.7.7",
+    "@supabase/supabase-js": "^2.4.1"
   }
 }
