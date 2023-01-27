@@ -1,6 +1,6 @@
 <script setup lang="ts">
-const { signOut } = useSupabase();
-const { error } = await signOut();
+const { auth } = useSupabaseAuthClient();
+const { error } = await auth.signOut();
 if (error)
   throw error;
 else
@@ -8,5 +8,7 @@ else
 </script>
 
 <template>
-  <p>Signing you out...</p>
+  <p class="hidden">
+    Signing you out...
+  </p>
 </template>
