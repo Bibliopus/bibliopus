@@ -1,3 +1,12 @@
+<script setup lang="ts">
+const { signOut } = useSupabase();
+const { error } = await signOut();
+if (error)
+  throw error;
+else
+  navigateTo('/auth/sign-up');
+</script>
+
 <template>
-  <p>Sign out</p>
+  <p>Signing you out...</p>
 </template>
