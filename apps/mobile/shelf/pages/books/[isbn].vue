@@ -44,7 +44,7 @@ if (error.value)
       <p v-if="errorMessage" class="text-error">
         {{ errorMessage }}
       </p>
-      <div v-else>
+      <div v-if="book">
         <div class="flex flex-col items-center gap-5 mt-12 mb-10">
           <img :src="book.cover" class="w-34 h-48 object-cover">
           <div class="text-center">

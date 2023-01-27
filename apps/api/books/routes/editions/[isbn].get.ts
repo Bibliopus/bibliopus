@@ -49,6 +49,9 @@ export default defineEventHandler(async (event): Promise<Edition> => {
       await getOpenLibraryData(event.context.params.isbn),
     ]);
 
+    // Fix CORS Issues for now
+    event.node.res.setHeader('Access-Control-Allow-Origin', '*');
+
     return {
       ...googleData,
       ...openlibraryData,
