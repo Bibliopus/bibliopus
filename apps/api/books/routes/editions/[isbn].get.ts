@@ -23,7 +23,7 @@ const getGoogleData = async (isbn: string) => {
     subjects,
     pageCount: data.pageCount,
     releaseDate: data.publishedDate,
-    cover: data.imageLinks.thumbnail,
+    cover: data.imageLinks.thumbnail.replace('&edge=curl', ''),
   };
 };
 
