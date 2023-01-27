@@ -1,6 +1,5 @@
 <template>
-  <div>
+  <div class="mx-auto max-w-md ">
     <slot />
-    <p>dhqzudhqu</p>
   </div>
 </template>
