@@ -23,7 +23,7 @@ const getGoogleData = async (isbn: string) => {
     subjects,
     pageCount: data.pageCount,
     releaseDate: data.publishedDate,
-    cover: data?.imageLinks?.thumbnail?.replace('&edge=curl', '') || `https://covers.openlibrary.org/b/isbn/${isbn}-M.jpg`,
+    cover: data?.imageLinks?.thumbnail?.replace('&edge=curl', ''),
   };
 };
 
@@ -39,6 +39,7 @@ const getOpenLibraryData = async (isbn: string) => {
   return {
     subjects,
     book: { olkey: workData.key, editions: [] },
+    cover: `https://covers.openlibrary.org/b/isbn/${isbn}-M.jpg`,
   };
 };
 
