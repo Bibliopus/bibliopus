@@ -23,7 +23,7 @@ const getGoogleData = async (isbn: string) => {
     subjects,
     pageCount: data.pageCount,
     releaseDate: data.publishedDate,
-    cover: data.imageLinks.thumbnail.replace('&edge=curl', ''),
+    cover: data?.imageLinks?.thumbnail?.replace('&edge=curl', '') || `https://covers.openlibrary.org/b/isbn/${isbn}-M.jpg`,
   };
 };
 
@@ -59,6 +59,7 @@ export default defineEventHandler(async (event): Promise<Edition> => {
     } as Edition;
   }
   catch (err) {
+    // console.log(err);
     sendError(event, err);
   }
 });
