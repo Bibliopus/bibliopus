@@ -12,12 +12,14 @@ export const useUser = () => {
   const checkUser = async () =>
     (await client.auth.getUser()).data.user;
 
-  const getUserProfile = async () =>
-    await useAsyncData('profile', async () => {
+  const getUserProfile = async (id?: string) =>
+    await useAsyncData(`profile-${id ?? 'me'}`, async () => {
+      if (!id)
+        id = (await getUser()).data.value?.id;
       const { data } = await client
         .from('profiles')
-        .select('id, first_name, last_name')
-        .eq('id', (await getUser()).data.value?.id)
+        .select('id, first_name, last_name, email')
+        .eq('id', id)
         .single();
       return data;
     });

@@ -27,9 +27,26 @@ export const useBook = () => {
         { isbn, user: (await getUser()).data.value?.id },
       ]);
   };
+
+  const getUsersWithBook = async (isbn: string) =>
+    await useAsyncData(`users-with-book-${isbn}`, async () => {
+      const { data: userIds } = await client
+        .from('user-books')
+        .select('user')
+        .eq('isbn', isbn);
+
+      const { data: users } = await client
+        .from('profiles')
+        .select('id, first_name, last_name')
+        .in('id', userIds?.map(item => item.user) || []);
+
+      return users;
+    });
+
   return {
     getBook,
     getUserHasBook,
     addBookToUser,
+    getUsersWithBook,
   };
 };

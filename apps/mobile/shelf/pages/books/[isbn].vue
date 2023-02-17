@@ -9,19 +9,31 @@ const route = useRoute();
 const isbn = ref('');
 const errorMessage = ref('');
 
+const { addToHistory } = useSearchHistory();
+
 const searchIsbn = async (event: Event) => {
   event.preventDefault();
-  if (isbn.value)
+  if (isbn.value) {
+    addToHistory(isbn.value);
     await navigateTo(`/books/${unref(isbn)}`);
+  }
 };
 
-const { getBook, getUserHasBook, addBookToUser } = useBook();
+const {
+  getBook,
+  getUserHasBook,
+  addBookToUser,
+  getUsersWithBook,
+} = useBook();
+
 const { data, error } = await getBook(route.params.isbn as string);
 const book = data as Ref<any>;
 if (error.value)
   errorMessage.value = 'Failed to fetch the book you are searching for.';
 
 const { data: hasBook } = await getUserHasBook(route.params.isbn as string);
+
+const { data: usersWithBook } = await getUsersWithBook(route.params.isbn as string);
 
 const addBook = () => {
   addBookToUser(route.params.isbn as string);
@@ -73,6 +85,8 @@ const addBook = () => {
             />
             You have this book
           </p>
+
+          <UserAvatars :users="usersWithBook" />
         </div>
         <p v-html="book.description" />
       </div>

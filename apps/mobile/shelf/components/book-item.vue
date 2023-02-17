@@ -1,19 +1,26 @@
 <script setup lang="ts">
-defineProps<{
-  title: string
-  author: string
-  image: string
+const props = defineProps<{
+  isbn: string
 }>();
+
+const { getBook } = useBook();
+const { data: book } = await getBook(props.isbn);
 </script>
 
 <template>
-  <article class="flex items-center gap-3 w-full">
-    <img :src="image" class="w-14 h-20 object-cover rounded">
-    <div class="flex flex-col">
-      <p>
-        {{ title }}
-      </p>
-      <p>{{ author }}</p>
-    </div>
-  </article>
+  <NuxtLink :to="`/books/${isbn}`">
+    <article class="flex items-center gap-3 w-full">
+      <img
+        :src="book.cover"
+        class="w-14 h-20 object-cover rounded"
+        loading="lazy"
+      >
+      <div class="flex flex-col">
+        <p>
+          {{ book.title }}
+        </p>
+        <p>{{ book.authors[0].name }}</p>
+      </div>
+    </article>
+  </NuxtLink>
 </template>

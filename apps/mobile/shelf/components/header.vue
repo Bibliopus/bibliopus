@@ -29,11 +29,12 @@ const goBack = () => {
       <Icon name="ph:house-bold" size="24" />
     </button>
     <span>{{ fullname }}</span>
-    <Avatar
-      class="ml-auto"
-      :size="40"
-      variant="beam"
-      :name="fullname"
-    />
+    <NuxtLink class="ml-auto" :to="`/users/${profile?.id}`">
+      <Avatar
+        :size="40"
+        variant="beam"
+        :name="fullname"
+      />
+    </NuxtLink>
   </header>
 </template>

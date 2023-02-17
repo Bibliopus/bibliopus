@@ -5,10 +5,14 @@ definePageMeta({
 
 const isbn = ref('');
 
+const { addToHistory, history } = useSearchHistory();
+
 const searchIsbn = async (event: Event) => {
   event.preventDefault();
-  if (isbn.value)
+  if (isbn.value) {
+    addToHistory(isbn.value);
     await navigateTo(`/books/${unref(isbn)}`);
+  }
 };
 </script>
 
@@ -27,27 +31,17 @@ const searchIsbn = async (event: Event) => {
       </button>
     </form>
 
-    <!-- <div class="my-8">
+    <div class="my-8">
       <h2 class="text-xl font-bold mb-6">
-        Recently added
+        Recently searched
       </h2>
       <div class="flex flex-col gap-4">
-        <BookItem
-          title="Éteignez tout et la vie s'allume"
-          author="Marc Levy"
-          image="https://m.media-amazon.com/images/I/41Wyb9KPiaL._SY291_BO1,204,203,200_QL40_ML2_.jpg"
+        <LazyBookItem
+          v-for="(bookIsbn, index) in history"
+          :key="index"
+          :isbn="bookIsbn"
         />
-        <BookItem
-          title="Éteignez tout et la vie s'allume"
-          author="Marc Levy"
-          image="https://m.media-amazon.com/images/I/41Wyb9KPiaL._SY291_BO1,204,203,200_QL40_ML2_.jpg"
-        />
-        <BookItem
-          title="Éteignez tout et la vie s'allume"
-          author="Marc Levy"
-          image="https://m.media-amazon.com/images/I/41Wyb9KPiaL._SY291_BO1,204,203,200_QL40_ML2_.jpg"
-        />
-      </div> -->
-  <!-- </div> -->
+      </div>
+    </div>
   </div>
 </template>
