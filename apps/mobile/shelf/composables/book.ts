@@ -4,11 +4,20 @@ export const useBook = () => {
   const client = useSupabaseClient<any>();
   const { getUser } = useUser();
 
-  const getBook = async (isbn: string) => await useFetch(
+  const getBook = async (isbn: string) => await useFetch<any>(
     `${config.public.booksApiUrl}/editions/${isbn}`, {
       responseType: 'json',
     },
   );
+
+  const getUserBooks = async (id: string) =>
+    await useAsyncData(`books-${id}`, async () => {
+      const { data } = await client
+        .from('user-books')
+        .select('isbn')
+        .eq('user', id);
+      return data;
+    });
 
   const getUserHasBook = async (isbn: string) =>
     await useAsyncData(`has-book-${isbn}`, async () => {
@@ -48,5 +57,6 @@ export const useBook = () => {
     getUserHasBook,
     addBookToUser,
     getUsersWithBook,
+    getUserBooks,
   };
 };

@@ -37,7 +37,7 @@ const searchIsbn = async (event: Event) => {
       </h2>
       <div class="flex flex-col gap-4">
         <LazyBookItem
-          v-for="(bookIsbn, index) in history"
+          v-for="(bookIsbn, index) in history.slice(0, 5)"
           :key="index"
           :isbn="bookIsbn"
         />
