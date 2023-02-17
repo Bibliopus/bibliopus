@@ -22,6 +22,12 @@ const goBack = () => {
     >
       <Icon name="ph:caret-left-bold" size="24" />
     </button>
+    <button
+      v-else
+      class="btn btn-disabled"
+    >
+      <Icon name="ph:house-bold" size="24" />
+    </button>
     <span>{{ fullname }}</span>
     <Avatar
       class="ml-auto"
