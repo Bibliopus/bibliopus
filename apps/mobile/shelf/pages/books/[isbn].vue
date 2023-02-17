@@ -15,18 +15,22 @@ const searchIsbn = async (event: Event) => {
     await navigateTo(`/books/${unref(isbn)}`);
 };
 
-const { getBook } = useBook();
+const { getBook, getUserHasBook, addBookToUser } = useBook();
 const { data, error } = await getBook(route.params.isbn as string);
 const book = data as Ref<any>;
 if (error.value)
   errorMessage.value = 'Failed to fetch the book you are searching for.';
+
+const { data: hasBook } = await getUserHasBook(route.params.isbn as string);
+
+const addBook = () => {
+  addBookToUser(route.params.isbn as string);
+  hasBook.value = true;
+};
 </script>
 
 <template>
-  <div class="m-5 mt-20">
-    <h2 class="font-serif text-3xl text-center my-8">
-      Bibliopus
-    </h2>
+  <div class="m-5 mt-10">
     <form class="flex flex-col w-full gap-4" @submit="searchIsbn">
       <input
         v-model="isbn"
@@ -55,6 +59,20 @@ if (error.value)
               {{ book.authors[0].name }}
             </p>
           </div>
+          <button
+            v-if="!hasBook"
+            class="btn btn-primary"
+            @click="addBook"
+          >
+            I have this book
+          </button>
+          <p v-else class="btn btn-disabled flex items-center gap-1 text-secondary">
+            <Icon
+              name="ph:check-circle"
+              size="24"
+            />
+            You have this book
+          </p>
         </div>
         <p v-html="book.description" />
       </div>

@@ -13,10 +13,7 @@ const searchIsbn = async (event: Event) => {
 </script>
 
 <template>
-  <div class="m-5 mt-20">
-    <h2 class="font-serif text-3xl text-center my-8">
-      Bibliopus
-    </h2>
+  <div class="m-5 mt-10">
     <form class="flex flex-col w-full gap-4" @submit="searchIsbn">
       <input
         v-model="isbn"

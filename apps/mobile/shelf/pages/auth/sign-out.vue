@@ -1,4 +1,9 @@
 <script setup lang="ts">
+definePageMeta({
+  layout: 'guest',
+  middleware: 'auth',
+});
+
 const { auth } = useSupabaseAuthClient();
 const { error } = await auth.signOut();
 if (error)

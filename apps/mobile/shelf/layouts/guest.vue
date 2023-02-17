@@ -1,6 +1,5 @@
 <template>
   <div class="mx-auto max-w-md">
-    <Header />
     <main>
       <slot />
     </main>

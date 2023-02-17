@@ -13,7 +13,7 @@ export const useUser = () => {
     (await client.auth.getUser()).data.user;
 
   const getUserProfile = async () =>
-    await useAsyncData('restaurant', async () => {
+    await useAsyncData('profile', async () => {
       const { data } = await client
         .from('profiles')
         .select('id, first_name, last_name')

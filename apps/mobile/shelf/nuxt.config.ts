@@ -4,6 +4,7 @@ export default defineNuxtConfig({
   modules: [
     '@nuxtjs/supabase',
     '@nuxtjs/google-fonts',
+    'nuxt-icon',
   ],
   css: ['~/assets/css/main.css'],
   postcss: {

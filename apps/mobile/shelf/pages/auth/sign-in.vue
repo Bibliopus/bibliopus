@@ -1,5 +1,6 @@
 <script setup lang="ts">
 definePageMeta({
+  layout: 'guest',
   middleware: ['guest'],
 });
 const { auth } = useSupabaseAuthClient();
@@ -49,5 +50,8 @@ const signInAndRedirect = async (event: Event) => {
         Sign in
       </button>
     </form>
+    <NuxtLink to="/auth/sign-up" class="inline-block link mt-4">
+      Don't have an account? Sign up!
+    </NuxtLink>
   </div>
 </template>
