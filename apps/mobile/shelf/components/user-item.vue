@@ -6,10 +6,8 @@ const props = defineProps<{
   firstName: string
   lastName: string
   email: string
+  authId?: string
 }>();
-
-const { getUser } = useUser();
-const { data: user } = await getUser();
 </script>
 
 <template>
@@ -23,7 +21,7 @@ const { data: user } = await getUser();
       <div class="flex flex-col">
         <div>
           <span class="font-bold">{{ firstName }} {{ lastName }}</span>
-          <div v-if="user?.id === id" class="badge badge-primary ml-2">
+          <div v-if="authId && authId === id" class="badge badge-primary ml-2">
             You
           </div>
         </div>

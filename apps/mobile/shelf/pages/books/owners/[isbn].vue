@@ -8,6 +8,9 @@ definePageMeta({
 const route = useRoute();
 const errorMessage = ref('');
 
+const { getUser } = useUser();
+const { data: authUser } = await getUser();
+
 const {
   getUsersWithBook,
 } = useBook();
@@ -37,6 +40,7 @@ if (userError.value)
             :first-name="user.first_name"
             :last-name="user.last_name"
             :email="user.email"
+            :auth-id="authUser?.id"
           />
         </div>
       </div>
