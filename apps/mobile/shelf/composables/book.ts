@@ -46,7 +46,7 @@ export const useBook = () => {
 
       const { data: users } = await client
         .from('profiles')
-        .select('id, first_name, last_name')
+        .select('id, first_name, last_name, email')
         .in('id', userIds?.map(item => item.user) || []);
 
       return users;

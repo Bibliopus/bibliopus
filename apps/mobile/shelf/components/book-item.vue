@@ -16,10 +16,15 @@ const { data: book } = await getBook(props.isbn);
         loading="lazy"
       >
       <div class="flex flex-col">
-        <p>
+        <p class="text-xs line-clamp-1">
+          {{ isbn }}
+        </p>
+        <p class="font-bold line-clamp-2">
           {{ book.title }}
         </p>
-        <p>{{ book.authors[0].name }}</p>
+        <p class="line-clamp-1">
+          {{ book.authors[0].name }}
+        </p>
       </div>
     </article>
   </NuxtLink>

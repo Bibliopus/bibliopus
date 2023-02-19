@@ -14,5 +14,8 @@ module.exports = {
       sans: ['"Inter"'],
     },
   },
-  plugins: [require('daisyui')],
+  plugins: [
+    require('daisyui'),
+    require('@tailwindcss/line-clamp'),
+  ],
 };

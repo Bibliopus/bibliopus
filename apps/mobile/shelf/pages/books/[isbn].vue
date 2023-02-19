@@ -64,6 +64,9 @@ const addBook = () => {
         <div class="flex flex-col items-center gap-5 mt-12 mb-10">
           <img :src="book.cover" class="w-34 h-48 object-cover">
           <div class="text-center">
+            <p class="text-sm">
+              n°{{ route.params.isbn }}
+            </p>
             <h3 class="text-xl font-bold">
               {{ book.title }}
             </h3>
@@ -86,7 +89,11 @@ const addBook = () => {
             You have this book
           </p>
 
-          <UserAvatars :users="usersWithBook" />
+          <UserAvatars
+            v-if="usersWithBook && usersWithBook?.length > 0"
+            :users="usersWithBook"
+            :isbn="route.params.isbn as string"
+          />
         </div>
         <p v-html="book.description" />
       </div>
