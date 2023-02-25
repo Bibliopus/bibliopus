@@ -5,7 +5,7 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
-    "generate": "nuxt generate",
+    "generate": "nuxt generate && npx cap sync",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
@@ -24,6 +24,8 @@
     "tailwindcss": "^3.2.4"
   },
   "dependencies": {
+    "@capacitor-community/barcode-scanner": "^3.0.1",
+    "@capacitor/android": "4.6.1",
     "@capacitor/core": "^4.6.1",
     "@capacitor/preferences": "^4.0.2",
     "@headlessui/vue": "^1.7.7",

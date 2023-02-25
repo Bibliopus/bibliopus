@@ -8,7 +8,8 @@
       "outputs": [
         ".output/**",
         "dist/**",
-        ".nuxt/**"
+        ".nuxt/**",
+        ".vercel/**"
       ]
     },
     "lint": {
@@ -16,6 +17,15 @@
     },
     "dev": {
       "cache": false
+    },
+    "generate": {
+      "outputs": [
+        ".output/**",
+        "dist/**",
+        ".nuxt/**",
+        ".vercel/**",
+        "android"
+      ]
     }
   }
 }

@@ -12,8 +12,7 @@
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",
-    "ionic:build": "npm run build",
-    "ionic:serve": "npm run dev"
+    "app:generate": "turbo run generate --filter=@bibliopus/shelf"
   },
   "devDependencies": {
     "@bibliopus/eslint-config": "*",
