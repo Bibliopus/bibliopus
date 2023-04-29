@@ -1,83 +1,75 @@
-import type { Author, Edition, Subject } from '~/types/book';
+import { createClient } from '@supabase/supabase-js';
 
-const getGoogleData = async (isbn: string) => {
-  const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`);
-  const json = await response.json();
-  const linkToVolume = json.items[0].selfLink;
-  const data = (await (await fetch(linkToVolume)).json()).volumeInfo;
+import type { Author, Edition } from '~/types/book';
+import { getIdsFromAuthors } from '~/utils/format/authors';
+import { addAuthorsToEdition } from '~/utils/format/editions';
+import { getGoogleData } from '~/utils/providers/google';
+import { mergeProvidersData } from '~/utils/providers/merge';
+import { getOpenLibraryData } from '~/utils/providers/open-library';
 
-  const authors: Author[] = data.authors.map(author => ({ name: author }));
-  const subjects: Subject[] = data.categories?.map(category => ({ name: category })) ?? [];
-
-  const getISBN = (type: string) => data.industryIdentifiers.find(
-    indentifier => indentifier.type === type,
-  ).identifier;
-
-  return {
-    isbn10: getISBN('ISBN_10'),
-    isbn13: getISBN('ISBN_13'),
-    title: data.title,
-    description: data.description,
-    authors,
-    publisher: data.publisher,
-    subjects,
-    pageCount: data.pageCount,
-    releaseDate: data.publishedDate,
-    cover: data?.imageLinks?.thumbnail?.replace('&edge=curl', ''),
-  };
-};
-
-const getOpenLibraryData = async (isbn: string) => {
-  try {
-    const response = await fetch(`https://openlibrary.org/isbn/${isbn}.json`);
-    const data = await response.json();
-
-    const workResponse = await fetch(`https://openlibrary.org${data.works[0].key}.json`);
-    const workData = await workResponse.json();
-
-    const subjects = workData.subjects?.map(category => ({ name: category })) ?? [];
-
-    return {
-      subjects,
-      book: { olkey: workData.key, editions: [] },
-      cover: `https://covers.openlibrary.org/b/isbn/${isbn}-M.jpg`,
-    };
-  }
-  catch (err) {
-    return null;
-  }
+const emptyEdition: Edition = {
+  isbn: null,
+  title: null,
+  description: null,
+  authors: null,
+  publisher: null,
+  pages: null,
+  release: null,
+  cover: null,
 };
 
 export default defineEventHandler(async (event): Promise<Edition> => {
   // Fix CORS Issues for now
   event.node.res.setHeader('Access-Control-Allow-Origin', '*');
-  try {
-    const [googleData, openlibraryData] = await Promise.all([
-      await getGoogleData(event.context.params.isbn),
-      await getOpenLibraryData(event.context.params.isbn),
-    ]);
 
-    let bookData = {} as Partial<Edition>;
+  const config = useRuntimeConfig();
 
-    if (googleData) {
-      bookData = {
-        ...googleData,
-      };
-    }
+  // Create a single supabase client for interacting with your database
+  const supabase = createClient(config.supabaseUrl, config.supabaseKey);
 
-    if (openlibraryData) {
-      bookData = {
+  // Get the editions for the given isbn
+  const { data, error } = await supabase.from('editions')
+    .select('*')
+    .eq('isbn', event.context.params.isbn).maybeSingle();
+
+  // If there is an error, send it to the client
+  if (error)
+    sendError(event, new Error(error.message));
+
+  // If the edition is found, return it
+  if (data) { return await addAuthorsToEdition(supabase, data) as Edition; }
+  // If the edition is not found, get the data from the providers
+  else {
+    try {
+      const [googleData, openlibraryData] = await Promise.all([
+        await getGoogleData(event.context.params.isbn),
+        await getOpenLibraryData(event.context.params.isbn),
+      ]);
+
+      // Merge the data from the providers
+      const bookData = mergeProvidersData([
+        emptyEdition,
+        { isbn: event.context.params.isbn },
+        googleData,
+        openlibraryData,
+      ]);
+
+      // Find or insert the authors into the database
+      const authors = await getIdsFromAuthors(supabase, bookData.authors as Author[]);
+
+      // Insert the new edition into the database
+      const { data, error } = await supabase.from('editions').insert([{
         ...bookData,
-        ...openlibraryData,
+        authors,
+      }]).select().maybeSingle();
 
-      };
-      if (googleData)
-        bookData.subjects = [...googleData.subjects, ...openlibraryData.subjects];
+      if (error)
+        throw new Error(error.message);
+
+      return await addAuthorsToEdition(supabase, data) as Edition;
     }
-
-    return bookData as Edition;
-  }
-  catch (err) {
-    sendError(event, err);
+    catch (err) {
+      sendError(event, err);
+    }
   }
 });

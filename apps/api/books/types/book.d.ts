@@ -1,20 +1,19 @@
-export interface Book {
-  editions: Edition[];
-  olkey: string;
-}
+// export interface Book {
+//   editions: Edition[];
+//   olkey: string;
+// }
 
 export interface Edition {
-  isbn10: string;
-  isbn13: string;
+  isbn: string;
   title: string;
-  book: Book;
-  authors: Author[];
+  // book: Book;
   description: string;
-  releaseDate: Date;
-  pageCount: number;
+  authors: Author[] | number[];
+  publisher: string;
+  pages: number;
+  release: number;
   cover: string;
-  subjects: Subject[];
-  publisher: Publisher;
+  // subjects: Subject[];
 }
 
 export interface Author {
@@ -25,6 +24,6 @@ export interface Subject {
   name: string;
 }
 
-export interface Publisher {
-  name: string;
-}
+// export interface Publisher {
+//   name: string;
+// }

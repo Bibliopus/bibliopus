@@ -39,6 +39,8 @@ const addBook = () => {
   addBookToUser(route.params.isbn as string);
   hasBook.value = true;
 };
+
+const stringISBN = route.params.isbn as string;
 </script>
 
 <template>
@@ -62,10 +64,14 @@ const addBook = () => {
       </p>
       <div v-if="book">
         <div class="flex flex-col items-center gap-5 mt-12 mb-10">
-          <img :src="book.cover" class="w-34 h-48 object-cover">
+          <img
+            v-if="book.cover"
+            :src="book.cover"
+            class="w-36 h-48 object-contain"
+          >
           <div class="text-center">
             <p class="text-sm">
-              n°{{ route.params.isbn }}
+              #{{ route.params.isbn }}
             </p>
             <h3 class="text-xl font-bold">
               {{ book.title }}
@@ -92,7 +98,7 @@ const addBook = () => {
           <UserAvatars
             v-if="usersWithBook && usersWithBook?.length > 0"
             :users="usersWithBook"
-            :isbn="route.params.isbn as string"
+            :isbn="stringISBN"
           />
         </div>
         <p v-html="book.description" />
