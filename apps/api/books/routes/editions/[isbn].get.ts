@@ -69,7 +69,8 @@ export default defineEventHandler(async (event): Promise<Edition> => {
       return await addAuthorsToEdition(supabase, data) as Edition;
     }
     catch (err) {
-      sendError(event, err);
+      // console.log(err);
+      sendError(event, err, true);
     }
   }
 });

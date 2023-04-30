@@ -16,7 +16,7 @@ export const getGoogleData = async (isbn: string): Promise<Partial<Edition>> => 
     publisher: data.publisher,
     // subjects,
     pages: data.pageCount,
-    release: data.publishedDate,
+    release: data.publishedDate.slice(0, 4),
     cover: data?.imageLinks?.thumbnail?.replace('&edge=curl', ''),
   };
 };
