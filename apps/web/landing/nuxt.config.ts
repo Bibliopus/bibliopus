@@ -1,4 +1,3 @@
-/* eslint-disable turbo/no-undeclared-env-vars */
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: [
@@ -16,15 +15,12 @@ export default defineNuxtConfig({
   ssr: false,
   runtimeConfig: {
     public: {
-      supabaseUrl: '',
-      supabaseKey: '',
-      booksApiUrl: '',
+      shelfUrl: '',
     },
   },
   googleFonts: {
     families: {
-      'DM Serif Display': true,
-      'Inter': true,
+      Manrope: true,
     },
   },
   nitro: {
