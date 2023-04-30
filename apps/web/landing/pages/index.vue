@@ -10,6 +10,8 @@ definePageMeta({
     },
   ],
 });
+
+const shelfUrl = useRuntimeConfig().public.shelfUrl;
 </script>
 
 <template>
@@ -24,7 +26,7 @@ definePageMeta({
           Help people to exchange their books with other people, create a real interaction between readers and extend the durability of books.
         </p>
         <AtomsLink
-          to="/"
+          :to="shelfUrl"
           big
         >
           Get started
