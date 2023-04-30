@@ -9,7 +9,17 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@bibliopus/eslint-config": "*",
+    "autoprefixer": "^10.4.14",
     "nuxt": "3.0.0",
-    "@bibliopus/eslint-config": "*"
+    "postcss": "^8.4.21",
+    "tailwindcss": "^3.3.2"
+  },
+  "dependencies": {
+    "@headlessui/vue": "^1.7.12",
+    "@nuxtjs/google-fonts": "^3.0.0",
+    "@vueuse/core": "^9.13.0",
+    "@vueuse/nuxt": "^9.13.0",
+    "nuxt-icon": "^0.3.3"
   }
 }

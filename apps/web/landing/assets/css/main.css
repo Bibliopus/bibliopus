@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn {
+    @apply 
+      bg-dune-900 text-dune-50
+      border border-dune-800
+      rounded py-[12px] px-4
+      hover:bg-dune-800 hover:border-dune-600
+      transition-colors
+      cursor-pointer;
+  }
+
+  .btn-big {
+    @apply text-lg
+  }
+}
