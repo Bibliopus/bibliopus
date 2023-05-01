@@ -1,19 +1,12 @@
 /* eslint-disable turbo/no-undeclared-env-vars */
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  extends: [
+    '../../../packages/ui',
+  ],
   modules: [
     '@nuxtjs/supabase',
-    '@nuxtjs/google-fonts',
-    'nuxt-icon',
-    '@vueuse/nuxt',
   ],
-  css: ['~/assets/css/main.css'],
-  postcss: {
-    plugins: {
-      tailwindcss: {},
-      autoprefixer: {},
-    },
-  },
   ssr: false,
   runtimeConfig: {
     public: {
@@ -25,13 +18,6 @@ export default defineNuxtConfig({
   supabase: {
     url: process.env.NUXT_PUBLIC_SUPABASE_URL,
     key: process.env.NUXT_PUBLIC_SUPABASE_KEY,
-
-  },
-  googleFonts: {
-    families: {
-      'DM Serif Display': true,
-      'Inter': true,
-    },
   },
   nitro: {
     preset: 'vercel',
