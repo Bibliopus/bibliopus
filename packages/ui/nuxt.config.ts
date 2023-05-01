@@ -19,4 +19,11 @@ export default defineNuxtConfig({
       Manrope: true,
     },
   },
+  vite: {
+    server: {
+      hmr: {
+        port: (Number(process.env.PORT) + 1000) || undefined,
+      },
+    },
+  },
 });

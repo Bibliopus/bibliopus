@@ -8,6 +8,7 @@ export default {
     './plugins/**/*.{js,ts}',
     './nuxt.config.{js,ts}',
     './app.vue',
+    '@bibliopus/ui/**/*.{js,vue,ts}',
   ],
   theme: {
     fontFamily: {

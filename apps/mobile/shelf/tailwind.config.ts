@@ -9,7 +9,7 @@ export default {
     './plugins/**/*.{js,ts}',
     './nuxt.config.{js,ts}',
     './app.vue',
-    '../../../packages/ui/**/*.{js,vue,ts}',
+    '@bibliopus/ui/**/*.{js,vue,ts}',
   ],
   theme: config.theme,
 } satisfies Config;
