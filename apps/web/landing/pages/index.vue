@@ -1,10 +1,13 @@
 <script setup lang="ts">
+const title = 'Bibliopus';
+const description = 'Connect with fellow book enthusiasts in your area, share and swap books, keep track of your reads, and curate captivating collections for everyone to enjoy.';
+
 useHead({
-  title: 'Bibliopus',
+  title,
   meta: [
     {
       name: 'description',
-      content: 'Help people to exchange their books with other people.',
+      content: description,
     },
   ],
 });
@@ -18,10 +21,10 @@ const shelfUrl = useRuntimeConfig().public.shelfUrl;
       <MoleculesHeader />
       <main class="my-auto max-w-lg">
         <h1 class="text-6xl lg:text-9xl pb-5 bold font-serif">
-          Bibliopus
+          {{ title }}
         </h1>
         <h2 class="pb-7">
-          Help people to exchange their books with other people, create a real interaction between readers and extend the durability of books.
+          {{ description }}
         </h2>
         <AtomsLink
           :to="shelfUrl"
