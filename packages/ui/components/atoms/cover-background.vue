@@ -5,7 +5,7 @@ const props = defineProps<{
 }>();
 
 const { data: covers } = await useFetch(
-  `http://localhost:3003/covers?amount=${props.columns * props.rows}`,
+  `http://localhost:3003/covers/random?amount=${props.columns * props.rows}`,
 );
 
 // Create a computed property to get the covers in a 2D array named columns

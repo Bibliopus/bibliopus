@@ -1,1 +1,1 @@
-export default defineEventHandler(() => 'hello');
+export default defineEventHandler(() => 'Welcome to Bibliopus Books API');
