@@ -4,8 +4,10 @@ const props = defineProps<{
   rows: number
 }>();
 
+const booksApiUrl = useRuntimeConfig().public.booksApiUrl;
+
 const { data: covers } = await useFetch(
-  `http://localhost:3003/covers/random?amount=${props.columns * props.rows}`,
+  `${booksApiUrl}/covers/random?amount=${props.columns * props.rows}`,
 );
 
 // Create a computed property to get the covers in a 2D array named columns

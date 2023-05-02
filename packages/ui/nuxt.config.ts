@@ -1,3 +1,4 @@
+/* eslint-disable turbo/no-undeclared-env-vars */
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: [
@@ -17,6 +18,11 @@ export default defineNuxtConfig({
   googleFonts: {
     families: {
       Manrope: true,
+    },
+  },
+  runtimeConfig: {
+    public: {
+      booksApiUrl: '',
     },
   },
   vite: {
