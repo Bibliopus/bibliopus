@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  html, body {
+    @apply bg-dune-950;
+  }
+}
+
 @layer components {
   .btn {
     @apply 
