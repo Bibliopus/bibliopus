@@ -36,7 +36,7 @@ const shelfUrl = useRuntimeConfig().public.shelfUrl;
     <aside class="h-screen lg:w-2/5 bg-dune-900">
       <AtomsCoverBackground
         :columns="7"
-        :rows="5"
+        :rows="7"
       />
     </aside>
   </div>

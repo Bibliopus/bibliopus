@@ -26,7 +26,7 @@ const imageColumns = computed(() => {
       before:bg-gradient-to-b before:from-dune-950/95 before:via-dune-950/50 before:to-dune-950 before:z-10
     "
   >
-    <div class="flex gap-4 absolute w-max left-1/2 -translate-x-1/2 rotate-12">
+    <div class="flex gap-4 absolute w-max left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rotate-12">
       <div
         v-for="(imageRows, column) in imageColumns"
         :key="column"
