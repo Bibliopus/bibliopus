@@ -39,7 +39,8 @@ const imageColumns = computed(() => {
           :key="index"
           class="rounded w-[110px] object-cover aspect-[180/270]"
           :src="imageRow.cover"
-          alt="#"
+          alt=""
+          aria-hidden="true"
         >
       </div>
     </div>

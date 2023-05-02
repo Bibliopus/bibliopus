@@ -13,10 +13,10 @@ export default defineNitroConfig({
       },
     },
     '/covers/**': {
-      cache: {
-        swr: true,
-        maxAge: 3600,
-      },
+      // cache: {
+      //   swr: true,
+      //   maxAge: 3600,
+      // },
     },
   },
 });
