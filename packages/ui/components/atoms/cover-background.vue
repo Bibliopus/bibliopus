@@ -14,7 +14,7 @@ const { data: covers } = await useFetch(
 const imageColumns = computed(() => {
   const columns = [];
   for (let i = 0; i < props.columns; i++)
-    columns.push((covers.value as { cover: string }[]).slice(i * props.rows, (i + 1) * props.rows));
+    columns.push((covers.value as { cover: string }[])?.slice(i * props.rows, (i + 1) * props.rows));
 
   return columns;
 });
