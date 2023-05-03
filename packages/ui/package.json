@@ -7,7 +7,7 @@
   "devDependencies": {
     "@bibliopus/eslint-config": "*",
     "autoprefixer": "^10.4.14",
-    "nuxt": "3.0.0",
+    "nuxt": "^3.4.3",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.3.2"
   },

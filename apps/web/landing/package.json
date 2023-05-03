@@ -12,15 +12,15 @@
     "@bibliopus/eslint-config": "*",
     "@bibliopus/ui": "*",
     "autoprefixer": "^10.4.14",
-    "nuxt": "3.0.0",
+    "nuxt": "^3.4.3",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.3.2"
   },
   "dependencies": {
     "@headlessui/vue": "^1.7.12",
     "@nuxtjs/google-fonts": "^3.0.0",
-    "@vueuse/core": "^9.13.0",
-    "@vueuse/nuxt": "^9.13.0",
-    "nuxt-icon": "^0.3.3"
+    "@vueuse/core": "^10.1.2",
+    "@vueuse/nuxt": "^10.1.2",
+    "nuxt-icon": "^0.4.0"
   }
 }
