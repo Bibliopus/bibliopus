@@ -4,33 +4,20 @@ definePageMeta({
 });
 
 const isbn = ref('');
-
-const { addToHistory, history } = useSearchHistory();
+const searchValue: Ref<string> = useState('search');
+searchValue.value = '';
 
 const searchIsbn = async (event: Event) => {
   event.preventDefault();
   if (isbn.value) {
-    addToHistory(isbn.value);
+    // addToHistory(isbn.value);
     await navigateTo(`/books/${unref(isbn)}`);
   }
 };
 </script>
 
 <template>
-  <div class="m-5 mt-10">
-    <form class="flex flex-col w-full gap-4" @submit="searchIsbn">
-      <input
-        v-model="isbn"
-        type="text"
-        placeholder="Search for ISBN"
-        name="isbn"
-        class="input input-bordered w-full"
-      >
-      <button class="btn btn-primary" type="submit">
-        Find
-      </button>
-    </form>
-
+  <div class="m-4 mt-10">
     <div class="flex flex-col my-8 gap-4">
       <h2 class="section-title">
         Recently searched
@@ -41,7 +28,7 @@ const searchIsbn = async (event: Event) => {
           :key="index"
           :isbn="bookIsbn"
         /> -->
-        <AtomsBook
+        <AtomsBookItem
           isbn="9780736692403"
           title="Dune"
           :authors="[{ name: 'Frank Herbert' }]"
