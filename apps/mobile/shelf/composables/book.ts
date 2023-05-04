@@ -10,7 +10,7 @@ export const useBook = () => {
     },
   );
 
-  const getBooks = async (isbns: string[]) => await useFetch<any>(
+  const getBooks = async (isbns: string[]) => await useFetch<any[]>(
     `${config.public.booksApiUrl}/editions?isbn=${isbns.join(',')}`, {
       responseType: 'json',
     },

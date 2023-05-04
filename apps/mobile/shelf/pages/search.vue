@@ -1,6 +1,12 @@
 <script setup lang="ts">
+definePageMeta({
+  middleware: ['auth'],
+});
+useHead({ title: 'Search' });
+
 const { addToHistory, textsHistory, editionsHistory } = useSearchHistory();
 const { getBook } = useBook();
+
 const searchValue: Ref<string> = useState('search');
 const isbnBook: Ref<any> = ref(null);
 const searchError: Ref<any> = ref(null);
@@ -43,7 +49,8 @@ const limitedTextsHistory = computed(() => textsHistory.value.slice(0, 5));
 
 <template>
   <div v-if="!searchValue" class="flex flex-col gap-8 px-4">
-    <section class="flex flex-col gap-4">
+    <!-- This section will be useful once full text search is implemented -->
+    <!-- <section class="flex flex-col gap-4">
       <h2 class="section-title">
         Search history
       </h2>
@@ -58,7 +65,7 @@ const limitedTextsHistory = computed(() => textsHistory.value.slice(0, 5));
           </AtomsTag>
         </li>
       </ul>
-    </section>
+    </section> -->
     <section class="flex flex-col gap-4">
       <h2 class="section-title">
         Found recently

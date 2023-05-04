@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useImage } from '@vueuse/core';
 import type { Ref } from 'vue';
 
 definePageMeta({
@@ -6,103 +7,80 @@ definePageMeta({
 });
 
 const route = useRoute();
-const isbn = ref('');
 const errorMessage = ref('');
-
-const { addToHistory } = useSearchHistory();
-
-const searchIsbn = async (event: Event) => {
-  event.preventDefault();
-  if (isbn.value) {
-    addToHistory(isbn.value);
-    await navigateTo(`/books/${unref(isbn)}`);
-  }
-};
 
 const {
   getBook,
-  getUserHasBook,
-  addBookToUser,
   getUsersWithBook,
 } = useBook();
 
 const { data, error } = await getBook(route.params.isbn as string);
 const book = data as Ref<any>;
+const isCoverLoading = book.value.cover ? useImage({ src: book.value.cover }).isLoading : ref(false);
+
 if (error.value)
   errorMessage.value = 'Failed to fetch the book you are searching for.';
 
-const { data: hasBook } = await getUserHasBook(route.params.isbn as string);
-
 const { data: usersWithBook } = await getUsersWithBook(route.params.isbn as string);
 
-const addBook = () => {
-  addBookToUser(route.params.isbn as string);
-  hasBook.value = true;
-};
-
-const stringISBN = route.params.isbn as string;
+const authorsNames = computed(() => book.value.authors.map(
+  (author: { name: string }) => author.name,
+).join(', '));
 </script>
 
 <template>
-  <div class="m-5 mt-10">
-    <form class="flex flex-col w-full gap-4" @submit="searchIsbn">
-      <input
-        v-model="isbn"
-        type="text"
-        placeholder="Search for ISBN"
-        name="isbn"
-        class="input input-bordered w-full"
-      >
-      <button class="btn btn-primary" type="submit">
-        Find
-      </button>
-    </form>
-
-    <div class="my-8">
-      <p v-if="errorMessage" class="text-error">
-        {{ errorMessage }}
-      </p>
-      <div v-if="book">
-        <div class="flex flex-col items-center gap-5 mt-12 mb-10">
-          <img
-            v-if="book.cover"
-            :src="book.cover"
-            class="w-36 h-48 object-contain"
-          >
-          <div class="text-center">
-            <p class="text-sm">
-              #{{ route.params.isbn }}
-            </p>
-            <h3 class="text-xl font-bold">
-              {{ book.title }}
-            </h3>
-            <p>
-              {{ book.authors[0].name }}
-            </p>
-          </div>
-          <button
-            v-if="!hasBook"
-            class="btn btn-primary"
-            @click="addBook"
-          >
-            I have this book
-          </button>
-          <p v-else class="btn btn-disabled flex items-center gap-1 text-secondary">
-            <Icon
-              name="ph:check-circle"
-              size="24"
-            />
-            You have this book
-          </p>
-
-          <UserAvatars
-            v-if="usersWithBook && usersWithBook?.length > 0"
-            :users="usersWithBook"
-            :isbn="stringISBN"
+  <div class="flex flex-col gap-4 px-4">
+    <section class="flex flex-col items-center gap-4">
+      <div class="flex flex-col items-center gap-2">
+        <div
+          v-if="isCoverLoading"
+          class="flex w-[180px] h-[270px] rounded bg-dune-800 group-hover:bg-600 animate-pulse"
+        />
+        <img
+          v-else-if="book.cover"
+          class="aspect-[180/270] rounded w-[180px] object-cover"
+          :src="book.cover"
+          alt="#"
+        >
+        <div
+          v-else
+          class="flex items-center justify-center w-[180px] h-[270px] rounded bg-dune-800 group-hover:bg-dune-600 transition-colors"
+        >
+          <Icon
+            name="ph-image"
+            size="28"
+            class="text-dune-900 group-hover:800"
           />
         </div>
-        <p v-html="book.description" />
+        <span class="text-dune-300 text-sm text-center line-clamp-1">#{{ book.isbn }}</span>
       </div>
-    </div>
+      <div class="flex flex-col items-center">
+        <p class="text-dune-300 text-center line-clamp-1">
+          {{ authorsNames }}
+        </p>
+        <h2 class="text-dune-50 text-4xl text-center line-clamp-2">
+          {{ book.title }}
+        </h2>
+      </div>
+    </section>
+    <section class="flex w-full gap-2">
+      <AtomsCollectionButton icon="ph-book-bookmark">
+        To read
+      </AtomsCollectionButton>
+      <AtomsCollectionButton icon="ph-book-open">
+        Reading
+      </AtomsCollectionButton>
+      <AtomsCollectionButton icon="ph-book">
+        Read
+      </AtomsCollectionButton>
+    </section>
+    <section class="flex flex-col gap-4">
+      <h3 class="section-title">
+        Description
+      </h3>
+      <AtomsSeeMore>
+        <span v-html="book.description" />
+      </AtomsSeeMore>
+    </section>
   </div>
 </template>

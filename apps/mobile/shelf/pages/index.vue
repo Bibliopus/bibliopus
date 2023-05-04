@@ -2,6 +2,7 @@
 definePageMeta({
   middleware: ['auth'],
 });
+useHead({ title: 'Home' });
 
 const isbn = ref('');
 const searchValue: Ref<string> = useState('search');
@@ -23,11 +24,6 @@ const searchIsbn = async (event: Event) => {
         Recently searched
       </h2>
       <div class="flex flex-col gap-4">
-        <!-- <LazyBookItem
-          v-for="(bookIsbn, index) in history.slice(0, 5)"
-          :key="index"
-          :isbn="bookIsbn"
-        /> -->
         <AtomsBookItem
           isbn="9780736692403"
           title="Dune"

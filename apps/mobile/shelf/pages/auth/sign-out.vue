@@ -4,6 +4,8 @@ definePageMeta({
   middleware: 'auth',
 });
 
+useHead({ title: 'Sign out' });
+
 const { auth } = useSupabaseAuthClient();
 const { error } = await auth.signOut();
 if (error)

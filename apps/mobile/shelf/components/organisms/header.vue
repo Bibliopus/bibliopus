@@ -7,7 +7,7 @@ const searchValue: Ref<string> = useState('search', () => '');
 </script>
 
 <template>
-  <header class="flex items-center gap-5 mx-4 mt-[70px] mb-8">
+  <header class="flex items-center gap-5 mx-4 mb-8">
     <NuxtLink to="/">
       <img
         src="~/assets/img/logo.svg"

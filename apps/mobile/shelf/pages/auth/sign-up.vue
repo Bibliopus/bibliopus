@@ -3,6 +3,9 @@ definePageMeta({
   layout: 'guest',
   middleware: ['guest'],
 });
+
+useHead({ title: 'Sign up' });
+
 const { auth } = useSupabaseAuthClient();
 const email = ref('');
 const password = ref('');
