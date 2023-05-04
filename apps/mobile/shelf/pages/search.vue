@@ -42,7 +42,9 @@ watchDebounced(
 );
 
 const { getBooks } = useBook();
-const { data: editionsFromHistory } = await getBooks(editionsHistory.value.map(edition => edition.value));
+const { data: editionsFromHistory } = editionsHistory.value.length > 0
+  ? await getBooks(editionsHistory.value.map(edition => edition.value))
+  : { data: ref([]) };
 
 const limitedTextsHistory = computed(() => textsHistory.value.slice(0, 5));
 </script>
