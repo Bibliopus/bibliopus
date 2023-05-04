@@ -19,3 +19,9 @@ export const addAuthorsToEdition = async (supabase: SupabaseClient, edition: Edi
 
   return edition;
 };
+
+export const addAuthorsToEditions = async (supabase: SupabaseClient, editions: Edition[]) => {
+  return await Promise.all(editions.map(async (edition) => {
+    return await addAuthorsToEdition(supabase, edition);
+  }));
+};

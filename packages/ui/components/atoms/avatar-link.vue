@@ -9,7 +9,7 @@ withDefaults(
     size?: number
   }>(),
   {
-    variant: 'beam',
+    variant: 'marble',
     size: 40,
   },
 );

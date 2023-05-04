@@ -35,11 +35,14 @@ watchDebounced(
   { debounce: 1000, maxWait: 3000 },
 );
 
+const { getBooks } = useBook();
+const { data: editionsFromHistory } = await getBooks(editionsHistory.value.map(edition => edition.value));
+
 const limitedTextsHistory = computed(() => textsHistory.value.slice(0, 5));
 </script>
 
 <template>
-  <div v-if="!searchValue" class="flex flex-col gap-8">
+  <div v-if="!searchValue" class="flex flex-col gap-8 px-4">
     <section class="flex flex-col gap-4">
       <h2 class="section-title">
         Search history
@@ -60,24 +63,24 @@ const limitedTextsHistory = computed(() => textsHistory.value.slice(0, 5));
       <h2 class="section-title">
         Found recently
       </h2>
-      <ul class="flex flex-wrap gap-2 max-h-[120px] overflow-hidden">
-        <!-- <li
-          v-for="(edition, index) in editionsHistory"
+      <ul class="flex flex-wrap gap-4">
+        <li
+          v-for="(edition, index) in editionsFromHistory"
           :key="index"
-          class="max-w-[50%]"
+          class="w-full"
         >
           <AtomsBookItem
-            v-if="isbnBook"
-            :isbn="isbnBook.isbn"
-            :title="isbnBook.title"
-            :authors="isbnBook.authors"
-            :cover="isbnBook.cover"
+            v-if="edition"
+            :isbn="edition.isbn"
+            :title="edition.title"
+            :authors="edition.authors"
+            :cover="edition.cover"
           />
-        </li> -->
+        </li>
       </ul>
     </section>
   </div>
-  <section v-if="searchValue" class="flex flex-col gap-4">
+  <section v-if="searchValue" class="flex flex-col gap-4 px-4">
     <h2 class="section-title">
       Results
     </h2>

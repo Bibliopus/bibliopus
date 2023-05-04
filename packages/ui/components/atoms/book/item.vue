@@ -16,7 +16,10 @@ const authorsNames = computed(() => props.authors.map(author => author.name).joi
 </script>
 
 <template>
-  <div class="group w-full flex justify-between rounded-md bg-dune-900 border border-dune-800 p-3 cursor-pointer hover:bg-dune-800 hover:border-dune-600 transition-colors">
+  <NuxtLink
+    :to="`/editions/${isbn}`"
+    class="group w-full flex justify-between rounded-md bg-dune-900 border border-dune-800 p-3 cursor-pointer hover:bg-dune-800 hover:border-dune-600 transition-colors"
+  >
     <div class="flex flex-col">
       <span class="text-sm text-dune-300 line-clamp-1">#{{ isbn }}</span>
       <div class="mt-auto mb-0">
@@ -48,5 +51,5 @@ const authorsNames = computed(() => props.authors.map(author => author.name).joi
         class="text-dune-900 group-hover:800"
       />
     </div>
-  </div>
+  </NuxtLink>
 </template>
