@@ -19,11 +19,11 @@ const shelfUrl = useRuntimeConfig().public.shelfUrl;
   <div class="flex flex-col lg:h-screen lg:flex lg:flex-row-reverse h-screen">
     <div class="flex flex-col p-8 lg:w-3/5 bg-dune-950 text-dune-50">
       <MoleculesHeader />
-      <main class="my-auto max-w-lg">
-        <h1 class="text-6xl lg:text-9xl pb-5 bold font-serif">
+      <main class="my-auto">
+        <h1 class="text-6xl lg:text-9xl pb-5 first-letter:-ml-[8px]">
           {{ title }}
         </h1>
-        <h2 class="pb-7">
+        <h2 class="pb-7 max-w-lg">
           {{ description }}
         </h2>
         <AtomsLink
@@ -34,11 +34,11 @@ const shelfUrl = useRuntimeConfig().public.shelfUrl;
         </AtomsLink>
       </main>
     </div>
-    <aside class="h-full lg:h-screen lg:w-2/5 bg-dune-900">
-      <AtomsCoverBackground
-        :columns="7"
-        :rows="7"
-      />
+    <aside
+      ref="aside"
+      class="h-full lg:h-screen lg:w-2/5 bg-dune-900"
+    >
+      <AtomsCoverBackground />
     </aside>
   </div>
 </template>

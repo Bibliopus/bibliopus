@@ -3,6 +3,9 @@ definePageMeta({
   layout: 'guest',
   middleware: ['guest'],
 });
+
+useHead({ title: 'Sign in' });
+
 const { auth } = useSupabaseAuthClient();
 const email = ref('');
 const password = ref('');
@@ -23,35 +26,42 @@ const signInAndRedirect = async (event: Event) => {
 </script>
 
 <template>
-  <div class="m-5">
-    <h2 class="font-serif text-3xl text-center my-8">
-      Bibliopus
-    </h2>
+  <div class="flex flex-col justify-end h-screen -mt-8 gap-8 pb-[70px] relative z-10">
+    <header class="flex items-center gap-3">
+      <NuxtLink to="/">
+        <img
+          src="~/assets/img/logo.svg"
+          class="w-10"
+        >
+      </NuxtLink>
+      <h1 class="text-dune-100 text-3xl">
+        Bibliopus
+      </h1>
+    </header>
     <form class="flex flex-col w-full gap-4" @submit="signInAndRedirect">
-      <input
+      <AtomsInputText
         v-model="email"
         type="email"
         placeholder="Email"
         name="email"
         class="input input-bordered w-full"
-      >
-      <input
+      />
+      <AtomsInputText
         v-model="password"
         type="password"
         placeholder="Password"
         name="current-password"
         class="input input-bordered w-full"
-      >
-      <!-- <input type="text" placeholder="Address" name="address" class="input input-bordered w-full"> -->
+      />
       <p v-if="errorMessage" class="text-error">
         {{ errorMessage }}
       </p>
-      <button class="btn btn-primary" type="submit">
+      <NuxtLink to="/auth/sign-up" class="underline text-dune-300 text-sm">
+        No account yet? Sign up.
+      </NuxtLink>
+      <AtomsInputButton type="submit">
         Sign in
-      </button>
+      </AtomsInputButton>
     </form>
-    <NuxtLink to="/auth/sign-up" class="inline-block link mt-4">
-      Don't have an account? Sign up!
-    </NuxtLink>
   </div>
 </template>

@@ -1,0 +1,47 @@
+<script setup lang="ts">
+import { useImage } from '@vueuse/core';
+
+const props = defineProps<{
+  cover: string
+  title: string
+  authors: {
+    name: string
+  }[]
+}>();
+
+const isLoading = props.cover ? useImage({ src: props.cover }).isLoading : ref(false);
+
+const authorsNames = computed(() => props.authors.map(author => author.name).join(', '));
+</script>
+
+<template>
+  <div class="p-3 w-fit bg-dune-900 border border-dune-800 rounded-md cursor-pointer hover:bg-dune-800 hover:border-dune-600 transition-colors">
+    <div
+      v-if="isLoading"
+      class="flex w-[180px] h-[270px] rounded bg-dune-800 group-hover:bg-600 animate-pulse"
+    />
+    <img
+      v-else-if="cover"
+      class="aspect-[180/270] rounded w-[180px] object-cover"
+      :src="cover"
+      alt="#"
+    >
+    <div
+      v-else
+      class="flex items-center justify-center w-[180px] h-[270px] rounded bg-dune-800 group-hover:bg-dune-600 transition-colors"
+    >
+      <Icon
+        name="ph-image"
+        size="28"
+        class="text-dune-900 group-hover:800"
+      />
+    </div>
+
+    <p class="text-sm text-dune-300 mt-2 line-clamp-1">
+      {{ authorsNames }}
+    </p>
+    <h3 class="text-dune-50 line-clamp-1">
+      {{ title }}
+    </h3>
+  </div>
+</template>

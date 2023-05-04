@@ -1,8 +1,10 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: 'guest',
+  layout: 'empty',
   middleware: 'auth',
 });
+
+useHead({ title: 'Sign out' });
 
 const { auth } = useSupabaseAuthClient();
 const { error } = await auth.signOut();
