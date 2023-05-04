@@ -2,7 +2,7 @@ import { createClient } from '@supabase/supabase-js';
 
 import type { Author, Edition } from '~/types/book';
 import { getIdsFromAuthors } from '~/utils/format/authors';
-import { addAuthorsToEditions } from '~/utils/format/editions';
+import { addAuthorsToEditions, orderEditionsFromIsbnList } from '~/utils/format/editions';
 import { getGoogleData } from '~/utils/providers/google';
 import { mergeProvidersData } from '~/utils/providers/merge';
 import { getOpenLibraryData } from '~/utils/providers/open-library';
@@ -53,7 +53,10 @@ export default defineEventHandler(async (event): Promise<Edition[]> => {
   const notFoundIsbns = isbns.filter(isbn => !foundIsbns.includes(isbn));
 
   // If all editions are found, return them
-  if (notFoundIsbns.length <= 0) { return await addAuthorsToEditions(supabase, inDBEditions as Edition[]) as Edition[]; }
+  if (notFoundIsbns.length <= 0) {
+    const orderedEditions = orderEditionsFromIsbnList(inDBEditions as Edition[], isbns);
+    return await addAuthorsToEditions(supabase, orderedEditions) as Edition[];
+  }
 
   // If editions are not found, get the data from the providers
   else {
@@ -90,7 +93,8 @@ export default defineEventHandler(async (event): Promise<Edition[]> => {
       if (error)
         throw new Error(error.message);
 
-      return await addAuthorsToEditions(supabase, inDBEditions.concat(addedEditions) as Edition[]) as Edition[];
+      const orderedEditions = orderEditionsFromIsbnList(inDBEditions.concat(addedEditions) as Edition[], isbns);
+      return await addAuthorsToEditions(supabase, orderedEditions) as Edition[];
     }
     catch (err) {
       // console.log(err);

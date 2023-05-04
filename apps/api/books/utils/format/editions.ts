@@ -25,3 +25,7 @@ export const addAuthorsToEditions = async (supabase: SupabaseClient, editions: E
     return await addAuthorsToEdition(supabase, edition);
   }));
 };
+
+export const orderEditionsFromIsbnList = (editions: Edition[], isbns: string[]) => {
+  return isbns.map(isbn => editions.find(edition => edition.isbn === isbn));
+};
