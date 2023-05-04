@@ -6,6 +6,7 @@ const props = defineProps<{
 
 const booksApiUrl = useRuntimeConfig().public.booksApiUrl;
 
+// Init covers
 const { data: covers } = await useFetch(
   `${booksApiUrl}/covers/random?amount=${props.columns * props.rows}`,
 );
@@ -15,9 +16,19 @@ const imageColumns = computed(() => {
   const columns = [];
   for (let i = 0; i < props.columns; i++)
     columns.push((covers.value as { cover: string }[])?.slice(i * props.rows, (i + 1) * props.rows));
-
   return columns;
 });
+
+// Watch props.columns to update the covers
+watch(
+  () => props.columns,
+  () => {
+    useFetch(
+      `${booksApiUrl}/covers/random?amount=${props.columns * props.rows}`,
+    ).then(
+      ({ data }) => covers.value = data.value);
+  },
+);
 </script>
 
 <template>

@@ -13,6 +13,10 @@ useHead({
 });
 
 const shelfUrl = useRuntimeConfig().public.shelfUrl;
+
+const aside = ref(null);
+const { width } = useElementSize(aside);
+const columsCount = computed(() => Math.ceil(width.value / 120));
 </script>
 
 <template>
@@ -34,9 +38,12 @@ const shelfUrl = useRuntimeConfig().public.shelfUrl;
         </AtomsLink>
       </main>
     </div>
-    <aside class="h-full lg:h-screen lg:w-2/5 bg-dune-900">
+    <aside
+      ref="aside"
+      class="h-full lg:h-screen lg:w-2/5 bg-dune-900"
+    >
       <AtomsCoverBackground
-        :columns="7"
+        :columns="columsCount"
         :rows="7"
       />
     </aside>
