@@ -36,15 +36,6 @@ const signUpAndRedirect = async (event: Event) => {
 </script>
 
 <template>
-  <KeepAlive>
-    <div class="absolute top-0 left-0 w-full h-full">
-      <AtomsCoverBackground
-        :columns="4"
-        :rows="7"
-        mode="auth"
-      />
-    </div>
-  </KeepAlive>
   <div class="flex flex-col justify-end h-screen -mt-8 gap-8 pb-[70px] relative z-10">
     <header class="flex items-center gap-3">
       <NuxtLink to="/">
