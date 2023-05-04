@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto max-w-md py-[70px]">
+  <div class="mx-auto max-w-md py-[70px] px-4">
     <OrganismsHeader />
     <main>
       <slot />

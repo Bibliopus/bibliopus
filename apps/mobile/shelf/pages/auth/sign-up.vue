@@ -13,7 +13,7 @@ const firstName = ref('');
 const lastName = ref('');
 const errorMessage = ref('');
 
-const signUnAndRedirect = async (event: Event) => {
+const signUpAndRedirect = async (event: Event) => {
   event.preventDefault();
   const { error } = await auth.signUp({
     email: unref(email),
@@ -36,51 +36,65 @@ const signUnAndRedirect = async (event: Event) => {
 </script>
 
 <template>
-  <div class="m-5">
-    <h2 class="font-serif text-3xl text-center my-8">
-      Bibliopus
-    </h2>
-    <form class="flex flex-col w-full gap-4" @submit="signUnAndRedirect">
+  <KeepAlive>
+    <div class="absolute top-0 left-0 w-full h-full">
+      <AtomsCoverBackground
+        :columns="4"
+        :rows="7"
+        mode="auth"
+      />
+    </div>
+  </KeepAlive>
+  <div class="flex flex-col justify-end h-screen -mt-8 gap-8 pb-[70px] relative z-10">
+    <header class="flex items-center gap-3">
+      <NuxtLink to="/">
+        <img
+          src="~/assets/img/logo.svg"
+          class="w-10"
+        >
+      </NuxtLink>
+      <h1 class="text-dune-100 text-3xl">
+        Bibliopus
+      </h1>
+    </header>
+    <form class="flex flex-col w-full gap-4" @submit="signUpAndRedirect">
       <div class="flex gap-4">
-        <input
+        <AtomsInputText
           v-model="firstName"
           type="text"
           placeholder="First name"
           name="first-name"
-          class="input input-bordered w-full"
-        >
-        <input
+        />
+        <AtomsInputText
           v-model="lastName"
           type="text"
           placeholder="Last name"
           name="last-name"
-          class="input input-bordered w-full"
-        >
+        />
       </div>
-      <input
+      <AtomsInputText
         v-model="email"
         type="email"
         placeholder="Email"
         name="email"
         class="input input-bordered w-full"
-      >
-      <input
+      />
+      <AtomsInputText
         v-model="password"
         type="password"
         placeholder="Password"
         name="current-password"
         class="input input-bordered w-full"
-      >
+      />
       <p v-if="errorMessage" class="text-error">
         {{ errorMessage }}
       </p>
-      <!-- <input type="text" placeholder="Address" name="address" class="input input-bordered w-full"> -->
-      <button class="btn btn-primary" type="submit">
-        Sign up
-      </button>
+      <NuxtLink to="/auth/sign-in" class="underline text-dune-300 text-sm">
+        Already have an account? Sign in.
+      </NuxtLink>
+      <AtomsInputButton type="submit">
+        Join
+      </AtomsInputButton>
     </form>
-    <NuxtLink to="/auth/sign-in" class="inline-block link mt-4">
-      Already have an account? Sign in!
-    </NuxtLink>
   </div>
 </template>

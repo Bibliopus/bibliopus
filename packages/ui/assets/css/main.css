@@ -4,7 +4,7 @@
 
 @layer base {
   html, body {
-    @apply bg-dune-950;
+    @apply bg-dune-950 min-h-screen;
   }
 }
 

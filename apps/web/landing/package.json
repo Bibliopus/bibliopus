@@ -19,6 +19,7 @@
   "dependencies": {
     "@headlessui/vue": "^1.7.12",
     "@nuxtjs/google-fonts": "^3.0.0",
+    "@vueuse/components": "^10.1.2",
     "@vueuse/core": "^10.1.2",
     "@vueuse/nuxt": "^10.1.2",
     "nuxt-icon": "^0.4.0"
