@@ -12,11 +12,12 @@ const isbnBook: Ref<any> = ref(null);
 const searchError: Ref<any> = ref(null);
 
 const search = async () => {
+  searchError.value = null;
+  isbnBook.value = null;
   if (!searchValue.value)
     return;
-
   const { data, error } = await getBook(searchValue.value);
-  searchError.value = error;
+  searchError.value = error.value;
   isbnBook.value = data.value;
 };
 
@@ -27,7 +28,7 @@ watch(searchError, (error) => {
       value: searchValue.value,
     });
   }
-  else {
+  else if (searchValue.value !== '') {
     addToHistory({
       type: 'text',
       value: searchValue.value,
@@ -42,9 +43,9 @@ watchDebounced(
 );
 
 const { getBooks } = useBook();
-const { data: editionsFromHistory } = editionsHistory.value.length > 0
+const { data: editionsFromHistory, error: historyError } = editionsHistory.value.length > 0
   ? await getBooks(editionsHistory.value.map(edition => edition.value))
-  : { data: ref([]) };
+  : { data: ref([]), error: ref(new Error('Nothing found yet.')) };
 
 const limitedTextsHistory = computed(() => textsHistory.value.slice(0, 5));
 </script>
@@ -85,6 +86,14 @@ const limitedTextsHistory = computed(() => textsHistory.value.slice(0, 5));
             :authors="edition.authors"
             :cover="edition.cover"
           />
+          <div v-else-if="historyError">
+            <AtomsError>
+              {{ historyError.message }}
+            </AtomsError>
+          </div>
+          <div v-else>
+            <AtomsLoading />
+          </div>
         </li>
       </ul>
     </section>
@@ -101,10 +110,12 @@ const limitedTextsHistory = computed(() => textsHistory.value.slice(0, 5));
       :cover="isbnBook.cover"
     />
     <div v-else-if="searchError">
-      No results
+      <AtomsError>
+        No book found for {{ searchValue }}.
+      </AtomsError>
     </div>
     <div v-else>
-      Loading...
+      <AtomsLoading />
     </div>
   </section>
 </template>
