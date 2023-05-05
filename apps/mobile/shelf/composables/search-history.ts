@@ -6,8 +6,11 @@ interface HistoryEntry {
 export const useSearchHistory = () => {
   const history = useLocalStorage<HistoryEntry[]>('search-history', []);
   const addToHistory = (entry: HistoryEntry) => {
-    if (history.value[0] && entry.value === history.value[0].value)
+    // Check if the last history entry of same type has the same value
+    const lastOfSameType = history.value.find(e => e.type === entry.type);
+    if (lastOfSameType && lastOfSameType.value === entry.value)
       return;
+
     if (entry && entry.value && entry.type && entry.value !== '')
       history.value.unshift(entry);
   };
