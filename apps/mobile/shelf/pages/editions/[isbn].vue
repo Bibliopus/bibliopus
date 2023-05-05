@@ -29,7 +29,7 @@ const authorsNames = computed(() => book.value.authors.map(
 </script>
 
 <template>
-  <div class="flex flex-col gap-4 px-4">
+  <div class="flex flex-col gap-4">
     <section class="flex flex-col items-center gap-4">
       <div class="flex flex-col items-center gap-2">
         <div

@@ -18,7 +18,7 @@ const searchIsbn = async (event: Event) => {
 </script>
 
 <template>
-  <div class="m-4 mt-10">
+  <div class="">
     <div class="flex flex-col my-8 gap-4">
       <h2 class="section-title">
         Recently searched

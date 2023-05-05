@@ -50,7 +50,7 @@ const limitedTextsHistory = computed(() => textsHistory.value.slice(0, 5));
 </script>
 
 <template>
-  <div v-if="!searchValue" class="flex flex-col gap-8 px-4">
+  <div v-if="!searchValue" class="flex flex-col gap-8">
     <!-- This section will be useful once full text search is implemented -->
     <!-- <section class="flex flex-col gap-4">
       <h2 class="section-title">
