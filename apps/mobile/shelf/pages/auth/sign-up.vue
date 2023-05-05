@@ -26,12 +26,9 @@ const signUpAndRedirect = async (event: Event) => {
     },
   });
 
-  if (error) {
-    // eslint-disable-next-line no-console
-    console.log(error);
-    errorMessage.value = error.message;
-  }
-  else { await navigateTo('/'); }
+  if (error)
+    errorMessage.value = 'Could not sign up. Please check the provided information.';
+  else await navigateTo('/');
 };
 </script>
 
@@ -77,9 +74,9 @@ const signUpAndRedirect = async (event: Event) => {
         name="current-password"
         class="input input-bordered w-full"
       />
-      <p v-if="errorMessage" class="text-error">
+      <AtomsError v-if="errorMessage">
         {{ errorMessage }}
-      </p>
+      </AtomsError>
       <NuxtLink to="/auth/sign-in" class="underline text-dune-300 text-sm">
         Already have an account? Sign in.
       </NuxtLink>

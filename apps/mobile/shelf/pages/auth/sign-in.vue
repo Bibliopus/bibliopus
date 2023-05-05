@@ -18,10 +18,11 @@ const signInAndRedirect = async (event: Event) => {
     password: unref(password),
   });
 
-  if (error)
-    errorMessage.value = error.message;
-  else
-    await navigateTo('/');
+  if (error) {
+    if (error.message === 'Invalid login credentials')
+      errorMessage.value = 'Could not sign in. Please check your credentials.';
+  }
+  else { await navigateTo('/'); }
 };
 </script>
 
@@ -53,9 +54,9 @@ const signInAndRedirect = async (event: Event) => {
         name="current-password"
         class="input input-bordered w-full"
       />
-      <p v-if="errorMessage" class="text-error">
+      <AtomsError v-if="errorMessage">
         {{ errorMessage }}
-      </p>
+      </AtomsError>
       <NuxtLink to="/auth/sign-up" class="underline text-dune-300 text-sm">
         No account yet? Sign up.
       </NuxtLink>

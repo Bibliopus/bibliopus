@@ -8,7 +8,8 @@ export const useSearchHistory = () => {
   const addToHistory = (entry: HistoryEntry) => {
     if (history.value[0] && entry.value === history.value[0].value)
       return;
-    history.value.unshift(entry);
+    if (entry && entry.value && entry.type && entry.value !== '')
+      history.value.unshift(entry);
   };
 
   const editionsHistory = computed(() => history.value.filter(entry => entry.type === 'edition'));
