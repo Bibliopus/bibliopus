@@ -26,24 +26,23 @@ const submitFeedback = (feedback: any) => {
 </script>
 
 <template>
-  <div class="relative">
-    <div class="flex flex-col my-8 gap-4">
+  <div class="flex flex-col my-8 gap-8">
+    <div class="flex flex-col gap-4">
       <h2 class="section-title">
-        Recently searched
+        Recently added
       </h2>
-      <div class="flex flex-col gap-4">
-        <AtomsBookItem
-          isbn="9780736692403"
-          title="Dune"
-          :authors="[{ name: 'Frank Herbert' }]"
-          cover="https://covers.openlibrary.org/b/id/13440809-L.jpg"
-        />
-        <AtomsBookSliderItem
-          cover="https://covers.openlibrary.org/b/id/13440809-L.jpg"
-          title="fondation"
-          :authors="[{ name: 'Isaac Asimov' }]"
-        />
-      </div>
+      <AtomsBookItem
+        isbn="9780736692403"
+        title="Dune"
+        :authors="[{ name: 'Frank Herbert' }]"
+        cover="https://covers.openlibrary.org/b/id/13440809-L.jpg"
+      />
+    </div>
+    <div class="flex flex-col gap-4">
+      <h2 class="section-title">
+        Your collections
+      </h2>
+      <MoleculesCollectionSelect />
     </div>
     <AtomsInputButton @click="open = !open">
       Give your feedback
