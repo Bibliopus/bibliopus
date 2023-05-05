@@ -86,6 +86,20 @@ const authorsNames = computed(() => book.value.authors.map(
           <span v-html="book.description" />
         </AtomsSeeMore>
       </section>
+      <section class="flex flex-col gap-4">
+        <h3 class="section-title">
+          Collections
+        </h3>
+        <AtomsCollectionItem
+          user="Livres de "
+          name="Zinzin"
+          :covers="[
+            'https://covers.openlibrary.org/b/id/258357-L.jpg',
+            'https://covers.openlibrary.org/b/id/7885536-L.jpg',
+            'https://covers.openlibrary.org/b/id/13008986-L.jpg',
+          ]"
+        />
+      </section>
     </div>
   </div>
 </template>
