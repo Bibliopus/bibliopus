@@ -16,7 +16,7 @@ const emits = defineEmits<{
 
 const feedbacktypes = ref([
   { name: 'Issue', placeholder: 'I have an issue with...' },
-  { name: 'Suggestion', placeholder: 'I have a suggestion for...' },
+  { name: 'Idea', placeholder: 'I have a suggestion for...' },
   { name: 'Other', placeholder: 'I want to talk about...' },
 ]);
 
@@ -55,13 +55,16 @@ const submitFeedback = async () => {
       >
         <TabList class="flex gap-x-2">
           <Tab
-            v-for="feedbacktype in feedbacktypes"
+            v-for="(feedbacktype, index) in feedbacktypes"
             :key="feedbacktype.name"
             class="w-full"
           >
-            <AtomsInputButton class="w-full">
+            <AtomsTag
+              class="w-full"
+              :selected="selectedFeedbackTypeIndex === index"
+            >
               {{ feedbacktype.name }}
-            </AtomsInputButton>
+            </AtomsTag>
           </Tab>
         </TabList>
         <TabPanels>
