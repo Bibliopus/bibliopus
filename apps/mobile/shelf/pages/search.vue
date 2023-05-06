@@ -9,17 +9,34 @@ const { getBook } = useBook();
 
 const searchValue: Ref<string> = useState('search');
 const isbnBook: Ref<any> = ref(null);
+const searchResults: Ref<any> = ref(null);
 const searchPending = ref(true);
+
+const { searchEditions, getBooks } = useBook();
 
 const search = async () => {
   const { data } = await getBook(searchValue.value);
+  const { data: results } = await searchEditions(searchValue.value);
   searchPending.value = false;
+  searchResults.value = results.value;
   isbnBook.value = data.value;
   addToHistory({
     type: 'text',
     value: searchValue.value,
   });
 };
+
+const { data: editionsFromHistory, error: historyError } = editionsHistory.value.length > 0
+  ? await getBooks(editionsHistory.value.map(edition => edition.value))
+  : { data: ref([]), error: ref(new Error('Nothing found yet.')) };
+
+const limitedTextsHistory = computed(() => textsHistory.value.slice(0, 5));
+
+const searchAndIsbnResults = computed(() => {
+  if (isbnBook.value)
+    return [isbnBook.value, ...searchResults.value];
+  return searchResults.value;
+});
 
 watchDebounced(
   searchValue,
@@ -30,19 +47,11 @@ watchDebounced(
 watch(searchValue, () => {
   searchPending.value = true;
 });
-
-const { getBooks } = useBook();
-const { data: editionsFromHistory, error: historyError } = editionsHistory.value.length > 0
-  ? await getBooks(editionsHistory.value.map(edition => edition.value))
-  : { data: ref([]), error: ref(new Error('Nothing found yet.')) };
-
-const limitedTextsHistory = computed(() => textsHistory.value.slice(0, 5));
 </script>
 
 <template>
   <div v-if="!searchValue" class="flex flex-col gap-8">
-    <!-- This section will be useful once full text search is implemented -->
-    <!-- <section class="flex flex-col gap-4">
+    <section class="flex flex-col gap-4">
       <h2 class="section-title">
         Search history
       </h2>
@@ -57,12 +66,12 @@ const limitedTextsHistory = computed(() => textsHistory.value.slice(0, 5));
           </AtomsTag>
         </li>
       </ul>
-    </section> -->
-    <section class="flex flex-col gap-4">
+    </section>
+    <section class="flex flex-col gap-y-4">
       <h2 class="section-title">
         Found recently
       </h2>
-      <ul class="flex flex-wrap gap-4">
+      <ul class="flex flex-wrap gap-y-4">
         <li
           v-for="(edition, index) in editionsFromHistory"
           :key="index"
@@ -87,20 +96,26 @@ const limitedTextsHistory = computed(() => textsHistory.value.slice(0, 5));
       </ul>
     </section>
   </div>
-  <section v-if="searchValue" class="flex flex-col gap-4">
+  <section v-if="searchValue" class="flex flex-col gap-y-4">
     <h2 class="section-title">
       Results
     </h2>
     <div v-if="searchPending">
       <AtomsLoading />
     </div>
-    <AtomsBookItem
-      v-else-if="isbnBook"
-      :isbn="isbnBook.isbn"
-      :title="isbnBook.title"
-      :authors="isbnBook.authors"
-      :cover="isbnBook.cover"
-    />
+    <div
+      v-else-if="searchAndIsbnResults.length > 0"
+      class="flex flex-col gap-y-4"
+    >
+      <AtomsBookItem
+        v-for="(book, index) in searchAndIsbnResults"
+        :key="index"
+        :isbn="book.isbn"
+        :title="book.title"
+        :authors="book.authors"
+        :cover="book.cover"
+      />
+    </div>
     <div v-else>
       <AtomsError>
         No book found for {{ searchValue }}.

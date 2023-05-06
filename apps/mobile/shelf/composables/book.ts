@@ -16,6 +16,15 @@ export const useBook = () => {
     },
   );
 
+  const searchEditions = async (query: string) =>
+    await useAsyncData(`search-${query}`, async () => {
+      const { data } = await client
+        .from('editions')
+        .select()
+        .textSearch('fts', query);
+      return data;
+    });
+
   const getUserBooks = async (id: string) =>
     await useAsyncData(`books-${id}`, async () => {
       const { data } = await client
@@ -65,5 +74,6 @@ export const useBook = () => {
     addBookToUser,
     getUsersWithBook,
     getUserBooks,
+    searchEditions,
   };
 };
