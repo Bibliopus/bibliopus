@@ -14,12 +14,19 @@ const {
   getUsersWithBook,
 } = useBook();
 
+const { addToHistory } = useSearchHistory();
+
 const { data, error } = await getBook(route.params.isbn as string);
 const book = data as Ref<any>;
 const isCoverLoading = (book.value && book.value.cover) ? useImage({ src: book.value.cover }).isLoading : ref(false);
 
-if (error.value)
-  errorMessage.value = 'Sorry, we failed to fetch the book you are searching for.';
+if (error.value) { errorMessage.value = 'Sorry, we failed to fetch the book you are searching for.'; }
+else if (book.value) {
+  addToHistory({
+    type: 'edition',
+    value: route.params.isbn as string,
+  });
+}
 
 const { data: usersWithBook } = await getUsersWithBook(route.params.isbn as string);
 
@@ -29,11 +36,11 @@ const authorsNames = computed(() => book.value.authors.map(
 </script>
 
 <template>
-  <div class="flex flex-col gap-4">
+  <div>
     <AtomsError v-if="errorMessage">
       {{ errorMessage }}
     </AtomsError>
-    <div v-else-if="book">
+    <div v-else-if="book" class="flex flex-col gap-4">
       <section class="flex flex-col items-center gap-4">
         <div class="flex flex-col items-center gap-2">
           <div

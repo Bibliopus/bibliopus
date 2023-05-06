@@ -1,5 +1,7 @@
 /* eslint-disable turbo/no-undeclared-env-vars */
 import { defineNitroConfig } from 'nitropack';
+import errorHandler from './error';
+
 export default defineNitroConfig({
   runtimeConfig: {
     supabaseUrl: process.env.SUPABASE_URL,
@@ -8,15 +10,15 @@ export default defineNitroConfig({
   routeRules: {
     '/editions/**': {
       cache: {
-        swr: true,
         maxAge: 86400,
       },
     },
     '/covers/**': {
       cache: {
-        swr: true,
         maxAge: 3600,
       },
     },
   },
+  errorHandler: '~/error',
+  devErrorHandler: errorHandler,
 });
