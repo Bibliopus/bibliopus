@@ -6,8 +6,8 @@ export const validateIsbn = (isbn: string): boolean => {
 };
 
 export const validateIsbnStringList = (list: string): boolean => {
-  // Validate that the list is comma separated and each item is a valid isbn
   if (!list)
     return false;
-  return list.match(/^(\d{10}|\d{13})(,\d{10}|\d{13})*$/g) !== null;
+  // Validate that the list is comma separated and each item is a valid ISBN
+  return list.split(',').every(isbn => validateIsbn(isbn)) ?? false;
 };
