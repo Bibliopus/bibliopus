@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineProps<{
-  selected: boolean
+  selected?: boolean
 }>();
 
 defineEmits<{
