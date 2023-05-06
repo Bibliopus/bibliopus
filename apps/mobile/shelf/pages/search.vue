@@ -56,76 +56,78 @@ watch(searchValue, () => {
 </script>
 
 <template>
-  <div v-if="!searchValue" class="flex flex-col gap-8">
-    <section class="flex flex-col gap-4">
+  <div>
+    <div v-if="!searchValue" class="flex flex-col gap-8">
+      <section class="flex flex-col gap-4">
+        <h2 class="section-title">
+          Search history
+        </h2>
+        <ul class="flex flex-wrap gap-2 max-h-[120px] overflow-hidden">
+          <li
+            v-for="(text, index) in limitedTextsHistory"
+            :key="index"
+            class="max-w-[50%]"
+          >
+            <AtomsTag @click="searchValue = text.value">
+              {{ text.value }}
+            </AtomsTag>
+          </li>
+        </ul>
+      </section>
+      <section class="flex flex-col gap-y-4">
+        <h2 class="section-title">
+          Found recently
+        </h2>
+        <ul class="flex flex-wrap gap-y-4">
+          <li
+            v-for="(edition, index) in editionsFromHistory"
+            :key="index"
+            class="w-full"
+          >
+            <AtomsBookItem
+              v-if="edition"
+              :isbn="edition.isbn"
+              :title="edition.title"
+              :authors="edition.authors"
+              :cover="edition.cover"
+            />
+            <div v-else-if="historyError">
+              <AtomsError>
+                {{ historyError.message }}
+              </AtomsError>
+            </div>
+            <div v-else>
+              <AtomsLoading />
+            </div>
+          </li>
+        </ul>
+      </section>
+    </div>
+    <section v-if="searchValue" class="flex flex-col gap-y-4">
       <h2 class="section-title">
-        Search history
+        Results
       </h2>
-      <ul class="flex flex-wrap gap-2 max-h-[120px] overflow-hidden">
-        <li
-          v-for="(text, index) in limitedTextsHistory"
+      <div v-if="searchPending">
+        <AtomsLoading />
+      </div>
+      <div
+        v-else-if="searchAndIsbnResults.length > 0"
+        class="flex flex-col gap-y-4"
+      >
+        <AtomsBookItem
+          v-for="(book, index) in searchAndIsbnResults"
           :key="index"
-          class="max-w-[50%]"
-        >
-          <AtomsTag @click="searchValue = text.value">
-            {{ text.value }}
-          </AtomsTag>
-        </li>
-      </ul>
-    </section>
-    <section class="flex flex-col gap-y-4">
-      <h2 class="section-title">
-        Found recently
-      </h2>
-      <ul class="flex flex-wrap gap-y-4">
-        <li
-          v-for="(edition, index) in editionsFromHistory"
-          :key="index"
-          class="w-full"
-        >
-          <AtomsBookItem
-            v-if="edition"
-            :isbn="edition.isbn"
-            :title="edition.title"
-            :authors="edition.authors"
-            :cover="edition.cover"
-          />
-          <div v-else-if="historyError">
-            <AtomsError>
-              {{ historyError.message }}
-            </AtomsError>
-          </div>
-          <div v-else>
-            <AtomsLoading />
-          </div>
-        </li>
-      </ul>
+          :isbn="book.isbn"
+          :title="book.title"
+          :authors="book.authors"
+          :cover="book.cover"
+        />
+      </div>
+      <div v-else>
+        <AtomsError>
+          No book found for {{ searchValue }}.
+        </AtomsError>
+      </div>
     </section>
   </div>
-  <section v-if="searchValue" class="flex flex-col gap-y-4">
-    <h2 class="section-title">
-      Results
-    </h2>
-    <div v-if="searchPending">
-      <AtomsLoading />
-    </div>
-    <div
-      v-else-if="searchAndIsbnResults.length > 0"
-      class="flex flex-col gap-y-4"
-    >
-      <AtomsBookItem
-        v-for="(book, index) in searchAndIsbnResults"
-        :key="index"
-        :isbn="book.isbn"
-        :title="book.title"
-        :authors="book.authors"
-        :cover="book.cover"
-      />
-    </div>
-    <div v-else>
-      <AtomsError>
-        No book found for {{ searchValue }}.
-      </AtomsError>
-    </div>
-  </section>
 </template>

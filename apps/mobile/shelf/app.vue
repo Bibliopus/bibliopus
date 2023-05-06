@@ -20,3 +20,17 @@ useHead({
     <NuxtPage />
   </NuxtLayout>
 </template>
+
+<style>
+.page-enter-active {
+  transition: all 300ms ease;
+}
+.page-leave-active {
+  transition: all 200ms ease;
+}
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+  transform: translateY(10px);
+}
+</style>

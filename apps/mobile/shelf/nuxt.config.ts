@@ -8,6 +8,9 @@ export default defineNuxtConfig({
     '@nuxtjs/supabase',
     '@vite-pwa/nuxt',
   ],
+  app: {
+    pageTransition: { name: 'page', mode: 'out-in' },
+  },
   ssr: false,
   runtimeConfig: {
     public: {
