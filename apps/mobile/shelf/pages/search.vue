@@ -9,38 +9,27 @@ const { getBook } = useBook();
 
 const searchValue: Ref<string> = useState('search');
 const isbnBook: Ref<any> = ref(null);
-const searchError: Ref<any> = ref(null);
+const searchPending = ref(true);
 
 const search = async () => {
-  searchError.value = null;
-  isbnBook.value = null;
-  if (!searchValue.value)
-    return;
-  const { data, error } = await getBook(searchValue.value);
-  searchError.value = error.value;
+  const { data } = await getBook(searchValue.value);
+  searchPending.value = false;
   isbnBook.value = data.value;
+  addToHistory({
+    type: 'text',
+    value: searchValue.value,
+  });
 };
-
-watch(searchError, (error) => {
-  if (!error.value) {
-    addToHistory({
-      type: 'edition',
-      value: searchValue.value,
-    });
-  }
-  else if (searchValue.value !== '') {
-    addToHistory({
-      type: 'text',
-      value: searchValue.value,
-    });
-  }
-});
 
 watchDebounced(
   searchValue,
   search,
   { debounce: 1000, maxWait: 3000 },
 );
+
+watch(searchValue, () => {
+  searchPending.value = true;
+});
 
 const { getBooks } = useBook();
 const { data: editionsFromHistory, error: historyError } = editionsHistory.value.length > 0
@@ -102,20 +91,20 @@ const limitedTextsHistory = computed(() => textsHistory.value.slice(0, 5));
     <h2 class="section-title">
       Results
     </h2>
+    <div v-if="searchPending">
+      <AtomsLoading />
+    </div>
     <AtomsBookItem
-      v-if="isbnBook"
+      v-else-if="isbnBook"
       :isbn="isbnBook.isbn"
       :title="isbnBook.title"
       :authors="isbnBook.authors"
       :cover="isbnBook.cover"
     />
-    <div v-else-if="searchError">
+    <div v-else>
       <AtomsError>
         No book found for {{ searchValue }}.
       </AtomsError>
-    </div>
-    <div v-else>
-      <AtomsLoading />
     </div>
   </section>
 </template>
