@@ -30,9 +30,7 @@ else if (book.value) {
 
 const { data: usersWithBook } = await getUsersWithBook(route.params.isbn as string);
 
-const authorsNames = computed(() => book.value.authors.map(
-  (author: { name: string }) => author.name,
-).join(', '));
+const authorsNames = computed(() => book.value.authors.join(', '));
 </script>
 
 <template>

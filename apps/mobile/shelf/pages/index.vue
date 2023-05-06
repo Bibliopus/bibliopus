@@ -36,7 +36,7 @@ const selectedCollection = ref(1);
       <AtomsBookItem
         isbn="0425027066"
         title="Dune"
-        :authors="[{ name: 'Frank Herbert' }]"
+        :authors="['Frank Herbert']"
         cover="https://covers.openlibrary.org/b/id/11157826-L.jpg"
       />
     </div>
@@ -54,17 +54,17 @@ const selectedCollection = ref(1);
         :editions="[
           {
             title: 'Dune',
-            authors: [{ name: 'Frank Herbert' }],
+            authors: ['Frank Herbert'],
             cover: 'https://covers.openlibrary.org/b/id/11157826-L.jpg',
           },
           {
             title: 'Dune Messiah',
-            authors: [{ name: 'Frank Herbert' }],
+            authors: ['Frank Herbert'],
             cover: 'https://covers.openlibrary.org/b/id/9256650-L.jpg',
           },
           {
             title: 'Children of Dune',
-            authors: [{ name: 'Frank Herbert' }],
+            authors: ['Frank Herbert'],
             cover: 'https://covers.openlibrary.org/b/id/8357660-L.jpg',
           },
         ]"

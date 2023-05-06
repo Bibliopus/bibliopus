@@ -1,8 +1,8 @@
 <script setup lang="ts">
-const props = defineProps<{
+defineProps<{
   selected: number
   collections: { id: number; name: string }[]
-  editions: { title: string; authors: { name: string }[]; cover: string }[]
+  editions: { title: string; authors: string[]; cover: string }[]
 }>();
 
 defineEmits<{

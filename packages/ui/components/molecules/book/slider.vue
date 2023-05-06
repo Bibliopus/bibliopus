@@ -3,7 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
 
 defineProps<{
-  editions: { title: string; authors: { name: string }[]; cover: string }[]
+  editions: { title: string; authors: string[]; cover: string }[]
 }>();
 </script>
 

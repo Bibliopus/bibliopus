@@ -10,7 +10,7 @@ export default defineNitroConfig({
   routeRules: {
     '/editions/**': {
       cache: {
-        maxAge: 86400,
+        maxAge: 3600,
       },
     },
     '/covers/**': {
