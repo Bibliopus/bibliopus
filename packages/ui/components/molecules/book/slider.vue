@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
+
+defineProps<{
+  editions: { title: string; authors: { name: string }[]; cover: string }[]
+}>();
 </script>
 
 <template>
@@ -10,14 +14,14 @@ import 'swiper/css';
     class="w-full"
   >
     <SwiperSlide
-      v-for="i in 3"
-      :key="i"
+      v-for="(edition, index) in editions"
+      :key="index"
       class="!w-fit"
     >
       <AtomsBookSliderItem
-        title="Dune"
-        :authors="[{ name: 'Frank Herbert' }]"
-        cover="https://covers.openlibrary.org/b/id/13440809-L.jpg"
+        :title="edition.title"
+        :authors="edition.authors"
+        :cover="edition.cover"
       />
     </SwiperSlide>
   </Swiper>
