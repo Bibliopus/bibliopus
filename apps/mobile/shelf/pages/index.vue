@@ -15,10 +15,18 @@ const searchIsbn = async (event: Event) => {
     await navigateTo(`/books/${unref(isbn)}`);
   }
 };
+
+const open = ref(false);
+
+const { sendUserFeedback } = useFeedback();
+
+const submitFeedback = (feedback: any) => {
+  sendUserFeedback(feedback);
+};
 </script>
 
 <template>
-  <div class="">
+  <div class="relative">
     <div class="flex flex-col my-8 gap-4">
       <h2 class="section-title">
         Recently searched
@@ -37,5 +45,9 @@ const searchIsbn = async (event: Event) => {
         />
       </div>
     </div>
+    <AtomsInputButton @click="open = !open">
+      Give your feedback
+    </AtomsInputButton>
+    <MoleculesFeedback v-model:open="open" @submit="submitFeedback" />
   </div>
 </template>
