@@ -15,11 +15,14 @@ const searchPending = ref(true);
 const { searchEditions, getBooks } = useBook();
 
 const search = async () => {
-  const { data } = await getBook(searchValue.value);
-  const { data: results } = await searchEditions(searchValue.value);
-  searchPending.value = false;
-  searchResults.value = results.value;
-  isbnBook.value = data.value;
+  getBook(searchValue.value).then((res) => {
+    searchPending.value = false;
+    isbnBook.value = res.data.value;
+  });
+  searchEditions(searchValue.value).then((res) => {
+    searchPending.value = false;
+    searchResults.value = res.data.value;
+  });
   addToHistory({
     type: 'text',
     value: searchValue.value,
@@ -31,6 +34,9 @@ const { data: editionsFromHistory, error: historyError } = editionsHistory.value
   : { data: ref([]), error: ref(new Error('Nothing found yet.')) };
 
 const limitedTextsHistory = computed(() => textsHistory.value.slice(0, 5));
+
+if (searchValue.value)
+  search();
 
 const searchAndIsbnResults = computed(() => {
   if (isbnBook.value)
