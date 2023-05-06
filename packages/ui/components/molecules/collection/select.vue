@@ -13,13 +13,13 @@ defineEmits<{
 <template>
   <div class="flex flex-col gap-y-3 w-[calc(100% + 40px)] -mx-4">
     <MoleculesTagSlider
-      class="!pl-4"
+      class="!px-4"
       :selected="selected"
       :tags="collections"
       @update:selected="$emit('update:selected', $event)"
     />
     <MoleculesBookSlider
-      class="!pl-4"
+      class="!px-4"
       :editions="editions"
     />
   </div>
