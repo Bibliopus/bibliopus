@@ -87,7 +87,7 @@ const limitedTextsHistory = computed(() => textsHistory.value.slice(0, 5));
       </ul>
     </section>
   </div>
-  <section v-if="searchValue" class="flex flex-col gap-4 px-4">
+  <section v-if="searchValue" class="flex flex-col gap-4">
     <h2 class="section-title">
       Results
     </h2>
