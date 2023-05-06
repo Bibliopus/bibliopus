@@ -5,14 +5,12 @@ const props = defineProps<{
   cover: string | null
   isbn: string
   title: string
-  authors: {
-    name: string
-  }[]
+  authors: string[]
 }>();
 
 const isLoading = props.cover ? useImage({ src: props.cover }).isLoading : ref(false);
 
-const authorsNames = computed(() => props.authors.map(author => author.name).join(', '));
+const authorsNames = computed(() => props.authors.map(author => author).join(', '));
 </script>
 
 <template>

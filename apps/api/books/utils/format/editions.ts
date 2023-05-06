@@ -13,7 +13,7 @@ export const addAuthorsToEdition = async (supabase: SupabaseClient, edition: Edi
       throw new Error(foundError.message);
 
     if (foundAuthor)
-      return foundAuthor;
+      return foundAuthor.name;
     else return null;
   }));
 

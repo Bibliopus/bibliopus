@@ -19,9 +19,12 @@ export const useBook = () => {
   const searchEditions = async (query: string) =>
     await useAsyncData(`search-${query}`, async () => {
       const { data } = await client
-        .from('editions')
+        .from('editions_search')
         .select()
-        .textSearch('fts', query);
+        .textSearch('fts', query, {
+          type: 'websearch',
+          config: 'english',
+        });
       return data;
     });
 
