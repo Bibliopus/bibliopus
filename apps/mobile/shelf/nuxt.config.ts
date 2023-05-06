@@ -6,6 +6,7 @@ export default defineNuxtConfig({
   ],
   modules: [
     '@nuxtjs/supabase',
+    '@vite-pwa/nuxt',
   ],
   ssr: false,
   runtimeConfig: {
@@ -13,6 +14,42 @@ export default defineNuxtConfig({
       supabaseUrl: '',
       supabaseKey: '',
       booksApiUrl: '',
+    },
+  },
+  pwa: {
+    registerType: 'autoUpdate',
+    injectRegister: 'auto',
+    manifest: {
+      name: 'Bibliopus',
+      short_name: 'Bibliopus',
+      theme_color: '#1D1C16',
+      icons: [
+        {
+          src: 'icon_192.png',
+          sizes: '192x192',
+          type: 'image/png',
+        },
+        {
+          src: 'icon_512.png',
+          sizes: '512x512',
+          type: 'image/png',
+        },
+
+        {
+          src: 'icon_512.png',
+          sizes: '512x512',
+          type: 'image/png',
+          purpose: 'any maskable',
+        },
+      ],
+    },
+    client: {
+      installPrompt: true,
+    },
+    registerWebManifestInRouteRules: true,
+    workbox: {
+      navigateFallback: '/',
+      globPatterns: ['**/*.{js,css,html,png,svg,ico}'],
     },
   },
   supabase: {

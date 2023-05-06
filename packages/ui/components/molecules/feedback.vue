@@ -2,7 +2,7 @@
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/vue';
 
 defineProps<{
-  open: Boolean
+  open: boolean
 }>();
 
 const emits = defineEmits<{
