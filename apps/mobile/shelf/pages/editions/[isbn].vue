@@ -38,34 +38,31 @@ const { data: readCollection } = await getReadCollection();
 const { data: readingCollection } = await getReadingCollection();
 const { data: toReadCollection } = await getToReadCollection();
 
-const { data: isRead, refresh: readRefresh } = readCollection.value
+const { data: isRead, refresh: readRefresh, pending: readPending } = readCollection.value
   ? await isEditionInCollection(readCollection.value.id, book.value.isbn)
-  : { data: ref(false), refresh: () => {} };
-const { data: isReading, refresh: readingRefresh } = readingCollection.value
+  : { data: ref(false), refresh: () => {}, pending: ref(false) };
+const { data: isReading, refresh: readingRefresh, pending: readingPending } = readingCollection.value
   ? await isEditionInCollection(readingCollection.value.id, book.value.isbn)
-  : { data: ref(false), refresh: () => {} };
-const { data: isToRead, refresh: toReadRefresh } = toReadCollection.value
+  : { data: ref(false), refresh: () => {}, pending: ref(false) };
+const { data: isToRead, refresh: toReadRefresh, pending: toReadPending } = toReadCollection.value
   ? await isEditionInCollection(toReadCollection.value.id, book.value.isbn)
-  : { data: ref(false), refresh: () => {} };
+  : { data: ref(false), refresh: () => {}, pending: ref(false) };
 
-let realtimeChannel: RealtimeChannel;
-
-onMounted(() => {
-  realtimeChannel = client.channel('public:collection_editions').on(
-    'postgres_changes',
-    { event: '*', schema: 'public', table: 'collection_editions' },
-    () => {
-      readRefresh();
-      readingRefresh();
-      toReadRefresh();
-    },
-  );
-  realtimeChannel.subscribe();
-});
-
-onUnmounted(() => {
-  client.removeChannel(realtimeChannel);
-});
+const toggleInCollection = async (collection: {
+  id: any
+  name: any
+  user: any
+} | null) => {
+  if (book.value && collection) {
+    const inCollection = await toggleEditionInCollection(collection.id, book.value.isbn);
+    if (collection.name === 'Read')
+      isRead.value = inCollection;
+    else if (collection.name === 'Reading')
+      isReading.value = inCollection;
+    else if (collection.name === 'To read')
+      isToRead.value = inCollection;
+  }
+};
 </script>
 
 <template>
@@ -110,22 +107,25 @@ onUnmounted(() => {
       <section class="flex w-full gap-2">
         <AtomsCollectionButton
           icon="ph-book-bookmark"
-          :active="isToRead ?? false"
-          @click="toggleEditionInCollection(toReadCollection?.id, book.isbn)"
+          :active="isRead ?? false"
+          :pending="readPending"
+          @click="toggleInCollection(readCollection)"
         >
           To read
         </AtomsCollectionButton>
         <AtomsCollectionButton
           icon="ph-book-open"
           :active="isReading ?? false"
-          @click="toggleEditionInCollection(readingCollection?.id, book.isbn)"
+          :pending="readingPending"
+          @click="toggleInCollection(readingCollection)"
         >
           Reading
         </AtomsCollectionButton>
         <AtomsCollectionButton
           icon="ph-book"
-          :active="isRead ?? false"
-          @click="toggleEditionInCollection(readCollection?.id, book.isbn)"
+          :active="isToRead ?? false"
+          :pending="toReadPending"
+          @click="toggleInCollection(toReadCollection)"
         >
           Read
         </AtomsCollectionButton>

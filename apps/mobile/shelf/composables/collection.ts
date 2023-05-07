@@ -112,6 +112,7 @@ export const useCollection = () => {
       await removeEditionFromCollection(id, isbn);
     else
       await addEditionToCollection(id, isbn);
+    return !isInCollection.value;
   };
 
   return {
