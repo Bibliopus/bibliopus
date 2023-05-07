@@ -4,17 +4,14 @@ definePageMeta({
 });
 useHead({ title: 'Home' });
 
-const isbn = ref('');
+const { getUserRecentlyAddedEditions } = useEdition();
+const { getUser } = useUser();
+
 const searchValue: Ref<string> = useState('search');
 searchValue.value = '';
 
-const searchIsbn = async (event: Event) => {
-  event.preventDefault();
-  if (isbn.value) {
-    // addToHistory(isbn.value);
-    await navigateTo(`/books/${unref(isbn)}`);
-  }
-};
+const { data: user } = await getUser();
+const { data: recentlyAddedEditions } = user.value ? await getUserRecentlyAddedEditions(user.value?.id) : { data: ref([]) };
 
 const open = ref(false);
 
@@ -34,10 +31,12 @@ const selectedCollection = ref(1);
         Recently added
       </h2>
       <AtomsBookItem
-        isbn="0425027066"
-        title="Dune"
-        :authors="['Frank Herbert']"
-        cover="https://covers.openlibrary.org/b/id/11157826-L.jpg"
+        v-for="(edition, index) in recentlyAddedEditions"
+        :key="index"
+        :isbn="edition.isbn"
+        :title="edition.title"
+        :authors="edition.authors"
+        :cover="edition.cover"
       />
     </div>
     <div class="flex flex-col gap-4">

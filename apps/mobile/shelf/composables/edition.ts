@@ -45,6 +45,14 @@ export const useEdition = () => {
       return data;
     });
 
+  const getUserRecentlyAddedEditions = async (id: string) =>
+    await useAsyncData(`user-recently-added-editions-${id}`, async () => {
+      const { data } = await client.rpc('get_user_editions', { user_id: id })
+        .order('created_at', { ascending: false })
+        .limit(3);
+      return data;
+    });
+
   const getUserBooks = async (id: string) =>
     await useAsyncData(`books-${id}`, async () => {
       const { data } = await client
@@ -92,6 +100,7 @@ export const useEdition = () => {
     getEditions,
     searchEditions,
     getEditionsFromCollection,
+    getUserRecentlyAddedEditions,
 
     // Old
     getUserHasBook,
