@@ -1,16 +1,20 @@
-export const useBook = () => {
+export const useEdition = () => {
   const config = useRuntimeConfig();
 
   const client = useSupabaseClient<any>();
   const { getUser } = useUser();
 
-  const getBook = async (isbn: string) => await useFetch<any>(
+  // Get functions for editions use the api instead of supabase
+  // because we need to be able to call providers if we don't have
+  // the edition in our database
+
+  const getEdition = async (isbn: string) => await useFetch<any>(
     `${config.public.booksApiUrl}/editions/${isbn}`, {
       responseType: 'json',
     },
   );
 
-  const getBooks = async (isbns: string[]) => await useFetch<any[]>(
+  const getEditions = async (isbns: string[]) => await useFetch<any[]>(
     `${config.public.booksApiUrl}/editions?isbn=${isbns.join(',')}`, {
       responseType: 'json',
     },
@@ -25,6 +29,19 @@ export const useBook = () => {
           type: 'websearch',
           config: 'english',
         });
+      return data;
+    });
+
+  const getEditionsFromCollection = async (id: number) =>
+    await useAsyncData(`collection-editions-${id}`, async () => {
+      const { data: isbns } = await client
+        .from('collection_editions')
+        .select('edition')
+        .eq('collection', id);
+      const { data } = await client
+        .from('editions')
+        .select()
+        .in('isbn', isbns?.map(item => item.edition) || []);
       return data;
     });
 
@@ -71,12 +88,15 @@ export const useBook = () => {
     });
 
   return {
-    getBook,
-    getBooks,
+    getEdition,
+    getEditions,
+    searchEditions,
+    getEditionsFromCollection,
+
+    // Old
     getUserHasBook,
     addBookToUser,
     getUsersWithBook,
     getUserBooks,
-    searchEditions,
   };
 };

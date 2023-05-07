@@ -5,17 +5,15 @@ definePageMeta({
 useHead({ title: 'Search' });
 
 const { addToHistory, textsHistory, editionsHistory } = useSearchHistory();
-const { getBook } = useBook();
+const { searchEditions, getEdition, getEditions } = useEdition();
 
 const searchValue: Ref<string> = useState('search');
 const isbnBook: Ref<any> = ref(null);
 const searchResults: Ref<any> = ref(null);
 const searchPending = ref(true);
 
-const { searchEditions, getBooks } = useBook();
-
 const search = async () => {
-  getBook(searchValue.value).then((res) => {
+  getEdition(searchValue.value).then((res) => {
     searchPending.value = false;
     isbnBook.value = res.data.value;
   });
@@ -30,7 +28,7 @@ const search = async () => {
 };
 
 const { data: editionsFromHistory, error: historyError } = editionsHistory.value.length > 0
-  ? await getBooks(editionsHistory.value.map(edition => edition.value))
+  ? await getEditions(editionsHistory.value.map(edition => edition.value))
   : { data: ref([]), error: ref(new Error('Nothing found yet.')) };
 
 const limitedTextsHistory = computed(() => textsHistory.value.slice(0, 5));

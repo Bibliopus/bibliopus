@@ -1,22 +1,26 @@
 <script setup lang="ts">
 import { useImage } from '@vueuse/core';
-import type { Ref } from 'vue';
+import type { RealtimeChannel } from '@supabase/supabase-js';
+const client = useSupabaseClient();
 
 definePageMeta({
   middleware: ['auth'],
 });
 
+const { getEdition } = useEdition();
+const {
+  getReadCollection,
+  getReadingCollection,
+  getToReadCollection,
+  toggleEditionInCollection,
+  isEditionInCollection,
+} = useCollection();
+const { addToHistory } = useSearchHistory();
+
 const route = useRoute();
 const errorMessage = ref('');
 
-const {
-  getBook,
-  getUsersWithBook,
-} = useBook();
-
-const { addToHistory } = useSearchHistory();
-
-const { data, error } = await getBook(route.params.isbn as string);
+const { data, error } = await getEdition(route.params.isbn as string);
 const book = data as Ref<any>;
 const isCoverLoading = (book.value && book.value.cover) ? useImage({ src: book.value.cover }).isLoading : ref(false);
 
@@ -28,9 +32,40 @@ else if (book.value) {
   });
 }
 
-const { data: usersWithBook } = await getUsersWithBook(route.params.isbn as string);
-
 const authorsNames = computed(() => book.value.authors.join(', '));
+
+const { data: readCollection } = await getReadCollection();
+const { data: readingCollection } = await getReadingCollection();
+const { data: toReadCollection } = await getToReadCollection();
+
+const { data: isRead, refresh: readRefresh } = readCollection.value
+  ? await isEditionInCollection(readCollection.value.id, book.value.isbn)
+  : { data: ref(false), refresh: () => {} };
+const { data: isReading, refresh: readingRefresh } = readingCollection.value
+  ? await isEditionInCollection(readingCollection.value.id, book.value.isbn)
+  : { data: ref(false), refresh: () => {} };
+const { data: isToRead, refresh: toReadRefresh } = toReadCollection.value
+  ? await isEditionInCollection(toReadCollection.value.id, book.value.isbn)
+  : { data: ref(false), refresh: () => {} };
+
+let realtimeChannel: RealtimeChannel;
+
+onMounted(() => {
+  realtimeChannel = client.channel('public:collection_editions').on(
+    'postgres_changes',
+    { event: '*', schema: 'public', table: 'collection_editions' },
+    () => {
+      readRefresh();
+      readingRefresh();
+      toReadRefresh();
+    },
+  );
+  realtimeChannel.subscribe();
+});
+
+onUnmounted(() => {
+  client.removeChannel(realtimeChannel);
+});
 </script>
 
 <template>
@@ -73,13 +108,25 @@ const authorsNames = computed(() => book.value.authors.join(', '));
         </div>
       </section>
       <section class="flex w-full gap-2">
-        <AtomsCollectionButton icon="ph-book-bookmark">
+        <AtomsCollectionButton
+          icon="ph-book-bookmark"
+          :active="isToRead ?? false"
+          @click="toggleEditionInCollection(toReadCollection?.id, book.isbn)"
+        >
           To read
         </AtomsCollectionButton>
-        <AtomsCollectionButton icon="ph-book-open">
+        <AtomsCollectionButton
+          icon="ph-book-open"
+          :active="isReading ?? false"
+          @click="toggleEditionInCollection(readingCollection?.id, book.isbn)"
+        >
           Reading
         </AtomsCollectionButton>
-        <AtomsCollectionButton icon="ph-book">
+        <AtomsCollectionButton
+          icon="ph-book"
+          :active="isRead ?? false"
+          @click="toggleEditionInCollection(readCollection?.id, book.isbn)"
+        >
           Read
         </AtomsCollectionButton>
       </section>
@@ -93,7 +140,7 @@ const authorsNames = computed(() => book.value.authors.join(', '));
       </section>
       <section class="flex flex-col gap-4">
         <h3 class="section-title">
-          Collections
+          Present in
         </h3>
         <AtomsCollectionItem
           user="Livres de "
