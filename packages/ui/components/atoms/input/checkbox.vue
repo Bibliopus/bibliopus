@@ -36,8 +36,8 @@ defineEmits<{
       <Icon
         name="ph:check-bold"
         size="16"
-        class="text-dune-900 group-hover:text-dune-300 transition-colors"
-        :class="{ '!text-dune-950': modelValue }"
+        class="opacity-0 transition-opacity"
+        :class="{ '!opacity-100 ': modelValue }"
       />
     </div>
     <span class="ml-2 text-dune-50">{{ label }}</span>
