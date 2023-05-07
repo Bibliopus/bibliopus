@@ -50,6 +50,7 @@ export default defineNuxtConfig({
       installPrompt: true,
     },
     registerWebManifestInRouteRules: true,
+    workbox: { navigateFallback: null },
   },
   supabase: {
     url: process.env.NUXT_PUBLIC_SUPABASE_URL,

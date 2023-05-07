@@ -10,6 +10,14 @@ useHead({
       name: 'robots',
       content: 'none',
     },
+    {
+      name: 'viewport',
+      content: 'width=device-width, initial-scale=1',
+    },
+    {
+      name: 'theme-color',
+      content: '#1D1C16',
+    },
   ],
 });
 </script>
