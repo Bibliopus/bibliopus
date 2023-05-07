@@ -23,10 +23,18 @@ withDefaults(
       }"
     >
       <Icon
-        :name="pending ? 'ph:spinner' : icon"
+        v-if="pending"
+        name="ph:spinner"
+        size="24"
+        class="text-dune-50 animate-spin transition-colors"
+        :class="{ '!text-dune-950': active }"
+      />
+      <Icon
+        v-else
+        :name="icon"
         size="24"
         class="text-dune-50 transition-colors"
-        :class="{ '!text-dune-950': active, 'animate-spin': pending }"
+        :class="{ '!text-dune-950': active }"
       />
     </button>
     <span class="text-dune-50 text-sm">
