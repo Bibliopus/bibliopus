@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { useImage } from '@vueuse/core';
-import type { RealtimeChannel } from '@supabase/supabase-js';
-const client = useSupabaseClient();
 
 definePageMeta({
   middleware: ['auth'],
