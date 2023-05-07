@@ -1,4 +1,5 @@
 export const useCollection = () => {
+  const config = useRuntimeConfig();
   const client = useSupabaseClient<any>();
   const { getUser } = useUser();
 
@@ -71,12 +72,12 @@ export const useCollection = () => {
     return userId ? await getCollectionsFromUser(userId) : [];
   };
 
-  const getCollectionsFromEdition = async (isbn: string) => {
+  const getCollectionsFromEdition = async (isbn: string) =>
     await useAsyncData(`edition-collections-${isbn}`, async () => {
       const { data } = await client.rpc('get_collections_by_isbn', { isbn });
+      // .neq('is_custom', false);
       return data;
     });
-  };
 
   const addEditionToCollection = async (id: number, isbn: string) => {
     await client
@@ -115,6 +116,10 @@ export const useCollection = () => {
     return !isInCollection.value;
   };
 
+  const getCollectionCovers = async (id: number, amount = 3) => await useFetch<{ cover: string }[]>(
+    `${config.public.booksApiUrl}/covers/random?collection=${id}&amount=${amount}`,
+  );
+
   return {
     getCollection,
     getCollections,
@@ -128,5 +133,6 @@ export const useCollection = () => {
     removeEditionFromCollection,
     isEditionInCollection,
     toggleEditionInCollection,
+    getCollectionCovers,
   };
 };

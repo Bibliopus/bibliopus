@@ -12,8 +12,11 @@ const {
   getToReadCollection,
   toggleEditionInCollection,
   isEditionInCollection,
+  getCollectionsFromEdition,
+  getCollectionCovers,
 } = useCollection();
 const { addToHistory } = useSearchHistory();
+const { getUserProfile } = useUser();
 
 const route = useRoute();
 const errorMessage = ref('');
@@ -61,6 +64,37 @@ const toggleInCollection = async (collection: {
       isToRead.value = inCollection;
   }
 };
+
+const { data: presentInCollections } = await getCollectionsFromEdition(book.value.isbn);
+const { data: presentInCollectionsUsers } = await useAsyncData(async () => {
+  const users = new Map();
+  for (const collection of presentInCollections.value) {
+    const { data: user } = await getUserProfile(collection.user);
+    users.set(collection.id, `${user.value?.first_name} ${user.value?.last_name}`);
+  }
+  return users;
+});
+const { data: presentInCollectionsCovers } = await useAsyncData(async () => {
+  const covers = new Map();
+  for (const collection of presentInCollections.value) {
+    const { data: cover } = await getCollectionCovers(collection.id);
+    covers.set(collection.id, cover.value?.map((c: any) => c.cover));
+  }
+  return covers;
+});
+
+const presentInCollectionsData = computed(() => {
+  const data = [];
+  for (const collection of presentInCollections.value) {
+    data.push({
+      id: collection.id,
+      name: collection.name,
+      user: presentInCollectionsUsers.value?.get(collection.id),
+      covers: presentInCollectionsCovers.value?.get(collection.id),
+    });
+  }
+  return data;
+});
 </script>
 
 <template>
@@ -140,15 +174,11 @@ const toggleInCollection = async (collection: {
         <h3 class="section-title">
           Present in
         </h3>
-        <AtomsCollectionItem
-          user="Livres de "
-          name="Zinzin"
-          :covers="[
-            'https://covers.openlibrary.org/b/id/258357-L.jpg',
-            'https://covers.openlibrary.org/b/id/7885536-L.jpg',
-            'https://covers.openlibrary.org/b/id/13008986-L.jpg',
-          ]"
-        />
+        <AtomsSliderWrapper>
+          <MoleculesCollectionSlider
+            :collections="presentInCollectionsData"
+          />
+        </AtomsSliderWrapper>
       </section>
     </div>
   </div>

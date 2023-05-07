@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { HTTPError } from '~/types/error';
 
 export default defineEventHandler(async (event) => {
   // Fix CORS Issues for now
@@ -16,7 +17,7 @@ export default defineEventHandler(async (event) => {
 
   // If there is an error, send it to the client
   if (error)
-    sendError(event, new Error(error.message));
+    throw new HTTPError(error.message, +error.code);
 
   // If the edition is found, return it
   if (data)
