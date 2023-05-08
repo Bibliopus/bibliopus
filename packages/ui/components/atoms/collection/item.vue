@@ -2,6 +2,7 @@
 import { UseImage } from '@vueuse/components';
 
 withDefaults(defineProps<{
+  id: number
   user: string
   name: string
   covers?: string[]
@@ -11,7 +12,10 @@ withDefaults(defineProps<{
 </script>
 
 <template>
-  <div class=" group p-3 w-fit bg-dune-900 border border-dune-800 rounded-md cursor-pointer hover:bg-dune-800 hover:border-dune-600 transition-colors">
+  <NuxtLink
+    :to="`/collections/${id}`"
+    class="group block p-3 w-fit bg-dune-900 border border-dune-800 rounded-md cursor-pointer hover:bg-dune-800 hover:border-dune-600 transition-colors"
+  >
     <div class="h-[130px] w-[220px] overflow-hidden">
       <div
         class="flex justify-center px-2 items-end"
@@ -69,5 +73,5 @@ withDefaults(defineProps<{
         {{ name }}
       </h3>
     </div>
-  </div>
+  </NuxtLink>
 </template>
