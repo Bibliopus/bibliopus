@@ -14,10 +14,6 @@ searchValue.value = '';
 const { data: user } = await getUser();
 const { data: recentlyAddedEditions } = user.value ? await getUserRecentlyAddedEditions(user.value?.id) : { data: ref([]) };
 
-const open = ref(false);
-
-const { sendUserFeedback } = useFeedback();
-
 const { data: collections } = user.value ? await getCollectionsFromUser(user.value?.id) : { data: ref([]) };
 const selectedCollection = collections.value ? ref(collections.value[0].id) : ref(null);
 const { data: selectedEditions, refresh: selectedEditionsRefresh } = await useAsyncData(async () => {
@@ -61,9 +57,5 @@ const setSelectedCollection = (collectionId: number) => {
         @update:selected="setSelectedCollection($event)"
       />
     </div>
-    <AtomsInputButton @click="open = !open">
-      Give your feedback
-    </AtomsInputButton>
-    <MoleculesFeedback v-model:open="open" @submit="sendUserFeedback" />
   </div>
 </template>

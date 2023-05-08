@@ -14,6 +14,9 @@ withDefaults(
   },
 );
 
+const feedbackOpen = ref(false);
+const { sendUserFeedback } = useFeedback();
+
 const links = ref([
   {
     name: 'Profile',
@@ -33,6 +36,13 @@ const links = ref([
 ]);
 
 const actions = ref([
+  {
+    name: 'Give your feedback',
+    callback: () => {
+      feedbackOpen.value = true;
+    },
+    icon: 'ph:chat-dots',
+  },
   {
     name: 'Sign out',
     href: '/auth/sign-out',
@@ -93,6 +103,7 @@ const actions = ref([
             :key="action.href"
           >
             <NuxtLink
+              v-if="action.href"
               :to="action.href"
               class="text-left text-sm w-full py-[12px] px-2 rounded flex items-center gap-x-2 border border-transparent transition-colors"
               :class="{
@@ -106,9 +117,28 @@ const actions = ref([
               />
               {{ action.name }}
             </NuxtLink>
+            <button
+              v-else
+              class="text-left text-sm w-full py-[12px] px-2 rounded flex items-center gap-x-2 border border-transparent transition-colors"
+              :class="{
+                'bg-dune-900 border-dune-800': active,
+              }"
+              @click="action.callback"
+            >
+              <Icon
+                :name="action.icon"
+                size="20"
+                class="text-dune-300"
+              />
+              {{ action.name }}
+            </button>
           </MenuItem>
         </div>
       </MenuItems>
     </transition>
   </Menu>
+  <MoleculesFeedback
+    v-model:open="feedbackOpen"
+    @submit="sendUserFeedback"
+  />
 </template>
