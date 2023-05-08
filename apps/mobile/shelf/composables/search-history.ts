@@ -13,6 +13,10 @@ export const useSearchHistory = () => {
 
     if (entry && entry.value && entry.type && entry.value !== '')
       history.value.unshift(entry);
+
+    const lastTexts = history.value.filter(e => e.type === 'text').slice(0, 10);
+    const lastEditions = history.value.filter(e => e.type === 'edition').slice(0, 10);
+    history.value = lastTexts.concat(lastEditions);
   };
 
   const editionsHistory = computed(() => history.value.filter(entry => entry.type === 'edition'));
