@@ -11,8 +11,6 @@ const { getUser } = useUser();
 const { query } = useRoute();
 const { data: user } = await getUser();
 
-console.log(query.selected);
-
 const { data: collections } = await useAsyncData(async () => {
   if (user.value) {
     const { data } = await getCollectionsFromUser(user.value?.id);
