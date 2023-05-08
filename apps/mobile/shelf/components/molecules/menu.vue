@@ -25,7 +25,7 @@ const links = ref([
   },
   {
     name: 'Collections',
-    href: '/',
+    href: '/collections',
     icon: 'ph:books',
   },
   {

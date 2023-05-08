@@ -1,4 +1,4 @@
-<script>
+<script setup lang="ts">
 useHead({
   titleTemplate: title => `${title} - Bibliopus App`,
   meta: [
