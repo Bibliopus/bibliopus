@@ -1,5 +1,4 @@
 export const useCollection = () => {
-  const config = useRuntimeConfig();
   const client = useSupabaseClient<any>();
   const { getUser } = useUser();
 
@@ -116,9 +115,11 @@ export const useCollection = () => {
     return !isInCollection.value;
   };
 
-  const getCollectionCovers = async (id: number, amount = 3) => await useFetch<{ cover: string }[]>(
-    `${config.public.booksApiUrl}/covers/random?collection=${id}&amount=${amount}`,
-  );
+  const getCollectionCovers = async (id: number, amount = 3) =>
+    await useAsyncData(`collection-covers-${id}-${amount}`, async () => {
+      const { data } = await client.rpc('get_random_collection_covers', { collection_id: id, amount });
+      return data;
+    });
 
   return {
     getCollection,

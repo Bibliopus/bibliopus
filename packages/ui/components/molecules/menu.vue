@@ -62,7 +62,7 @@ const actions = ref([
       leave-to-class="transform scale-95 opacity-0"
     >
       <MenuItems
-        class="absolute origin-top-right right-0 top-full bg-dune-950 w-[200px] border border-dune-800 text-dune-50 rounded focus:outline-none mt-3"
+        class="absolute origin-top-right right-0 top-full bg-dune-950 w-[200px] border border-dune-800 text-dune-50 rounded focus:outline-none mt-3 z-50"
       >
         <div class=" px-2 py-2 flex flex-col justify-start">
           <MenuItem

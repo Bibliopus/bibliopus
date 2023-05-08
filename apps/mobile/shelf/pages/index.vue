@@ -38,6 +38,9 @@ const selectedCollection = ref(1);
         :authors="edition.authors"
         :cover="edition.cover"
       />
+      <AtomsError v-if="recentlyAddedEditions.length === 0">
+        Your didn't add any book yet.
+      </AtomsError>
     </div>
     <div class="flex flex-col gap-4">
       <h2 class="section-title">

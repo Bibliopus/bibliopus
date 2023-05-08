@@ -109,7 +109,7 @@ watch(searchValue, () => {
         <AtomsLoading />
       </div>
       <div
-        v-else-if="searchAndIsbnResults.length > 0"
+        v-else-if="searchAndIsbnResults && searchAndIsbnResults.length > 0"
         class="flex flex-col gap-y-4"
       >
         <AtomsBookItem
