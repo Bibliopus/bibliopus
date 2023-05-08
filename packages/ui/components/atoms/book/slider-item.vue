@@ -2,7 +2,8 @@
 import { useImage } from '@vueuse/core';
 
 const props = defineProps<{
-  cover: string
+  isbn: string
+  cover: string | null
   title: string
   authors: string[]
 }>();
@@ -13,7 +14,10 @@ const authorsNames = computed(() => props.authors.map(author => author).join(', 
 </script>
 
 <template>
-  <div class="group p-3 w-fit bg-dune-900 border border-dune-800 rounded-md cursor-pointer hover:bg-dune-800 hover:border-dune-600 transition-colors">
+  <NuxtLink
+    :to="`/editions/${isbn}`"
+    class="group block p-3 w-fit bg-dune-900 border border-dune-800 rounded-md cursor-pointer hover:bg-dune-800 hover:border-dune-600 transition-colors"
+  >
     <div
       v-if="isLoading"
       class="flex w-[180px] h-[270px] rounded bg-dune-800 group-hover:bg-dune-600 animate-pulse"
@@ -41,5 +45,5 @@ const authorsNames = computed(() => props.authors.map(author => author).join(', 
     <h3 class="text-dune-50 line-clamp-1">
       {{ title }}
     </h3>
-  </div>
+  </NuxtLink>
 </template>

@@ -3,7 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
 
 defineProps<{
-  editions: { title: string; authors: string[]; cover: string }[]
+  editions: { title: string; authors: string[]; cover: string; isbn: string }[]
 }>();
 </script>
 
@@ -19,7 +19,8 @@ defineProps<{
       class="!w-fit"
     >
       <AtomsBookSliderItem
-        :key="edition.title"
+        :key="edition.isbn"
+        :isbn="edition.isbn"
         :title="edition.title"
         :authors="edition.authors"
         :cover="edition.cover"

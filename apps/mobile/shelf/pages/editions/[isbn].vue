@@ -139,9 +139,9 @@ const presentInCollectionsData = computed(() => {
       <section class="flex w-full gap-2">
         <AtomsCollectionButton
           icon="ph-book-bookmark"
-          :active="isRead ?? false"
-          :pending="readPending"
-          @click="toggleInCollection(readCollection)"
+          :active="isToRead ?? false"
+          :pending="toReadPending"
+          @click="toggleInCollection(toReadCollection)"
         >
           To read
         </AtomsCollectionButton>
@@ -155,9 +155,9 @@ const presentInCollectionsData = computed(() => {
         </AtomsCollectionButton>
         <AtomsCollectionButton
           icon="ph-book"
-          :active="isToRead ?? false"
-          :pending="toReadPending"
-          @click="toggleInCollection(toReadCollection)"
+          :active="isRead ?? false"
+          :pending="readPending"
+          @click="toggleInCollection(readCollection)"
         >
           Read
         </AtomsCollectionButton>
