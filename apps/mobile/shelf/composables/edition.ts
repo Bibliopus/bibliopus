@@ -39,7 +39,7 @@ export const useEdition = () => {
         .select('edition')
         .eq('collection', id);
       const { data } = await client
-        .from('editions')
+        .from('editions_data')
         .select()
         .in('isbn', isbns?.map(item => item.edition) || []);
       return data;

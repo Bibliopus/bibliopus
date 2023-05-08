@@ -11,16 +11,23 @@ defineEmits<{
 </script>
 
 <template>
-  <div class="flex flex-col gap-y-3 w-[calc(100% + 40px)] -mx-4">
-    <MoleculesTagSlider
-      class="!px-4"
-      :selected="selected"
-      :tags="collections"
-      @update:selected="$emit('update:selected', $event)"
-    />
-    <MoleculesBookSlider
-      class="!px-4"
-      :editions="editions"
-    />
+  <div class="flex flex-col gap-y-3">
+    <AtomsSliderWrapper>
+      <MoleculesTagSlider
+        class="!px-4"
+        :selected="selected"
+        :tags="collections"
+        @update:selected="$emit('update:selected', $event)"
+      />
+    </AtomsSliderWrapper>
+    <AtomsSliderWrapper v-if="editions.length">
+      <MoleculesBookSlider
+        class="!px-4"
+        :editions="editions"
+      />
+    </AtomsSliderWrapper>
+    <AtomsError v-else>
+      Nothing in this collection.
+    </AtomsError>
   </div>
 </template>

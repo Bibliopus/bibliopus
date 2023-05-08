@@ -66,10 +66,13 @@ export const useCollection = () => {
       return data;
     });
 
-  const getAuthUserCollections = async () => {
-    const userId = (await getUser()).data.value?.id;
-    return userId ? await getCollectionsFromUser(userId) : [];
-  };
+  const getAuthUserCollections = async () =>
+    await useAsyncData('user-collections-auth', async () => {
+      const userId = (await getUser()).data.value?.id;
+      if (!userId)
+        throw new Error('User not authenticated');
+      return (await getCollectionsFromUser(userId)).data;
+    });
 
   const getCollectionsFromEdition = async (isbn: string) =>
     await useAsyncData(`edition-collections-${isbn}`, async () => {

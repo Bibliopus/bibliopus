@@ -4,7 +4,8 @@ definePageMeta({
 });
 useHead({ title: 'Home' });
 
-const { getUserRecentlyAddedEditions } = useEdition();
+const { getUserRecentlyAddedEditions, getEditionsFromCollection } = useEdition();
+const { getCollectionsFromUser } = useCollection();
 const { getUser } = useUser();
 
 const searchValue: Ref<string> = useState('search');
@@ -17,11 +18,18 @@ const open = ref(false);
 
 const { sendUserFeedback } = useFeedback();
 
-const submitFeedback = (feedback: any) => {
-  sendUserFeedback(feedback);
-};
+const { data: collections } = user.value ? await getCollectionsFromUser(user.value?.id) : { data: ref([]) };
+const selectedCollection = collections.value ? ref(collections.value[0].id) : ref(null);
+const { data: selectedEditions, refresh: selectedEditionsRefresh } = await useAsyncData(async () => {
+  if (selectedCollection.value)
+    return (await getEditionsFromCollection(selectedCollection.value)).data.value;
+  return [];
+});
 
-const selectedCollection = ref(1);
+const setSelectedCollection = (collectionId: number) => {
+  selectedCollection.value = collectionId;
+  selectedEditionsRefresh();
+};
 </script>
 
 <template>
@@ -47,34 +55,15 @@ const selectedCollection = ref(1);
         Your collections
       </h2>
       <MoleculesCollectionSelect
-        v-model:selected="selectedCollection"
-        :collections="[
-          { id: 1, name: 'To read' },
-          { id: 2, name: 'Reading' },
-          { id: 3, name: 'Read' },
-        ]"
-        :editions="[
-          {
-            title: 'Dune',
-            authors: ['Frank Herbert'],
-            cover: 'https://covers.openlibrary.org/b/id/11157826-L.jpg',
-          },
-          {
-            title: 'Dune Messiah',
-            authors: ['Frank Herbert'],
-            cover: 'https://covers.openlibrary.org/b/id/9256650-L.jpg',
-          },
-          {
-            title: 'Children of Dune',
-            authors: ['Frank Herbert'],
-            cover: 'https://covers.openlibrary.org/b/id/8357660-L.jpg',
-          },
-        ]"
+        :selected="selectedCollection"
+        :collections="collections ?? []"
+        :editions="selectedEditions as any[] ?? []"
+        @update:selected="setSelectedCollection($event)"
       />
     </div>
     <AtomsInputButton @click="open = !open">
       Give your feedback
     </AtomsInputButton>
-    <MoleculesFeedback v-model:open="open" @submit="submitFeedback" />
+    <MoleculesFeedback v-model:open="open" @submit="sendUserFeedback" />
   </div>
 </template>

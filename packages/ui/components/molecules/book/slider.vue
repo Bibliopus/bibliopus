@@ -19,6 +19,7 @@ defineProps<{
       class="!w-fit"
     >
       <AtomsBookSliderItem
+        :key="edition.title"
         :title="edition.title"
         :authors="edition.authors"
         :cover="edition.cover"

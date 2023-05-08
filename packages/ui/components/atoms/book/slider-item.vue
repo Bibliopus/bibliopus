@@ -13,16 +13,16 @@ const authorsNames = computed(() => props.authors.map(author => author).join(', 
 </script>
 
 <template>
-  <div class="p-3 w-fit bg-dune-900 border border-dune-800 rounded-md cursor-pointer hover:bg-dune-800 hover:border-dune-600 transition-colors">
+  <div class="group p-3 w-fit bg-dune-900 border border-dune-800 rounded-md cursor-pointer hover:bg-dune-800 hover:border-dune-600 transition-colors">
     <div
       v-if="isLoading"
-      class="flex w-[180px] h-[270px] rounded bg-dune-800 group-hover:bg-600 animate-pulse"
+      class="flex w-[180px] h-[270px] rounded bg-dune-800 group-hover:bg-dune-600 animate-pulse"
     />
     <img
       v-else-if="cover"
       class="aspect-[180/270] rounded w-[180px] object-cover"
       :src="cover"
-      alt="#"
+      :alt="`Cover of ${title}`"
     >
     <div
       v-else
