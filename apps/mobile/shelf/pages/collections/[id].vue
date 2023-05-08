@@ -12,7 +12,7 @@ const { params } = useRoute();
 
 const { data: collection } = await getCollection(+params.id);
 if (collection.value?.user === user.value?.id)
-  navigateTo('/collections');
+  navigateTo(`/collections?selected=${collection.value?.id}`);
 
 const { data: editions } = await getEditionsFromCollection(+params.id);
 const { data: collectionUser } = await useAsyncData(async () => {

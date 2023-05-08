@@ -8,7 +8,10 @@ const { getEditionsFromCollection, getEditionCountFromCollection } = useEdition(
 const { getCollectionsFromUser } = useCollection();
 const { getUser } = useUser();
 
+const { query } = useRoute();
 const { data: user } = await getUser();
+
+console.log(query.selected);
 
 const { data: collections } = await useAsyncData(async () => {
   if (user.value) {
@@ -30,7 +33,14 @@ const { data: inCollectionCount } = await useAsyncData(async () => {
   return {};
 });
 
-const selectedCollection = collections.value ? ref(collections.value[0].id) : ref(null);
+const selectedCollection = ref((() => {
+  if (query.selected)
+    return +query.selected;
+  else if (collections.value)
+    return collections.value[0].id;
+  else
+    return null;
+})());
 const { data: selectedEditions, refresh: selectedEditionsRefresh } = await useAsyncData(async () => {
   if (selectedCollection.value)
     return (await getEditionsFromCollection(selectedCollection.value)).data.value;
