@@ -20,6 +20,6 @@ const searchValue: Ref<string> = useState('search', () => '');
       placeholder="Search for a book"
       @focus="navigateTo('/search')"
     />
-    <AtomsAvatarLink :to="`/users/${profile?.id}`" :seed="fullname" />
+    <MoleculesMenu :seed="fullname" />
   </header>
 </template>
