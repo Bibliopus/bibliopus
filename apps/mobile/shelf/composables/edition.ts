@@ -14,7 +14,7 @@ export const useEdition = () => {
     },
   );
 
-  const getEditions = async (isbns: string[]) => await useFetch<any[]>(
+  const getEditions = async (isbns: string[]) => await useLazyFetch<any[]>(
     `${config.public.booksApiUrl}/editions?isbn=${isbns.join(',')}`, {
       responseType: 'json',
     },
