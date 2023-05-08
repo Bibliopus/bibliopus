@@ -2,9 +2,8 @@
 definePageMeta({
   middleware: ['auth'],
 });
-useHead({ title: 'Home' });
 
-const { getUserRecentlyAddedEditions, getEditionsFromCollection } = useEdition();
+const { getEditionsFromCollection } = useEdition();
 const { getCollection } = useCollection();
 const { getUser, getUserProfile } = useUser();
 
@@ -12,6 +11,9 @@ const { data: user } = await getUser();
 const { params } = useRoute();
 
 const { data: collection } = await getCollection(+params.id);
+if (collection.value?.user === user.value?.id)
+  navigateTo('/collections');
+
 const { data: editions } = await getEditionsFromCollection(+params.id);
 const { data: collectionUser } = await useAsyncData(async () => {
   if (!collection.value)
@@ -19,6 +21,8 @@ const { data: collectionUser } = await useAsyncData(async () => {
   const { data } = await getUserProfile(collection.value.user);
   return `${data.value?.first_name} ${data.value?.last_name}`;
 });
+
+useHead({ title: collection.value?.name ?? 'Collection' });
 </script>
 
 <template>

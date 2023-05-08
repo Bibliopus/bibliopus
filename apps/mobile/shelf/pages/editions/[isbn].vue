@@ -25,6 +25,8 @@ const { data, error } = await getEdition(route.params.isbn as string);
 const book = data as Ref<any>;
 const isCoverLoading = (book.value && book.value.cover) ? useImage({ src: book.value.cover }).isLoading : ref(false);
 
+useHead({ title: book.value.title });
+
 if (error.value) { errorMessage.value = 'Sorry, we failed to fetch the book you are searching for.'; }
 else if (book.value) {
   addToHistory({
