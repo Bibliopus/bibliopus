@@ -26,8 +26,13 @@ defineEmits<{
         :editions="editions"
       />
     </AtomsSliderWrapper>
-    <AtomsError v-else>
-      Nothing in this collection.
-    </AtomsError>
+    <div
+      v-else
+      class="min-h-[356px]"
+    >
+      <AtomsError>
+        Nothing in this collection.
+      </AtomsError>
+    </div>
   </div>
 </template>

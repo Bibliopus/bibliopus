@@ -4,7 +4,7 @@ definePageMeta({
 });
 useHead({ title: 'Home' });
 
-const { getUserRecentlyAddedEditions, getEditionsFromCollection } = useEdition();
+const { getUserRecentlyAddedEditions, getEditionsFromCollection, getEditionCountFromCollection } = useEdition();
 const { getCollectionsFromUser } = useCollection();
 const { getUser } = useUser();
 
@@ -14,7 +14,35 @@ searchValue.value = '';
 const { data: user } = await getUser();
 const { data: recentlyAddedEditions } = user.value ? await getUserRecentlyAddedEditions(user.value?.id) : { data: ref([]) };
 
-const { data: collections } = user.value ? await getCollectionsFromUser(user.value?.id) : { data: ref([]) };
+const { data: userCollections } = await useAsyncData(async () => {
+  if (user.value) {
+    const { data } = await getCollectionsFromUser(user.value?.id);
+    return data.value;
+  }
+  return [];
+});
+
+const { data: inCollectionCount } = await useAsyncData(async () => {
+  const editionByCollection: { [id: string]: number } = {};
+  if (userCollections.value) {
+    for (const collection of userCollections.value) {
+      const { data } = await getEditionCountFromCollection(collection.id);
+      editionByCollection[collection.id] = data.value ?? 0;
+    }
+    return editionByCollection;
+  }
+  return {};
+});
+
+const collections = computed(() => {
+  if (userCollections.value) {
+    return userCollections.value.filter(collection =>
+      inCollectionCount.value && inCollectionCount.value[collection.id] > 0,
+    );
+  }
+  return [];
+});
+
 const selectedCollection = collections.value ? ref(collections.value[0].id) : ref(null);
 const { data: selectedEditions, refresh: selectedEditionsRefresh } = await useAsyncData(async () => {
   if (selectedCollection.value)
@@ -48,7 +76,7 @@ const setSelectedCollection = (collectionId: number) => {
     </div>
     <div class="flex flex-col gap-4">
       <h2 class="section-title">
-        Your collections
+        In your collections
       </h2>
       <MoleculesCollectionSelect
         :selected="selectedCollection"

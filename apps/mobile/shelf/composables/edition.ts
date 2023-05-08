@@ -45,6 +45,15 @@ export const useEdition = () => {
       return data;
     });
 
+  const getEditionCountFromCollection = async (id: number) =>
+    await useAsyncData(`collection-editions-count-${id}`, async () => {
+      const { count } = await client
+        .from('collection_editions')
+        .select('*', { count: 'exact', head: true })
+        .eq('collection', id);
+      return count;
+    });
+
   const getUserRecentlyAddedEditions = async (id: string) =>
     await useAsyncData(`user-recently-added-editions-${id}`, async () => {
       const { data } = await client.rpc('get_user_editions', { user_id: id })
@@ -101,6 +110,7 @@ export const useEdition = () => {
     searchEditions,
     getEditionsFromCollection,
     getUserRecentlyAddedEditions,
+    getEditionCountFromCollection,
 
     // Old
     getUserHasBook,
