@@ -53,6 +53,7 @@ const actions = ref([
 
 <template>
   <Menu
+    v-slot="{ close }"
     as="div"
     class="relative flex flex-col items-center justify-center"
   >
@@ -86,6 +87,7 @@ const actions = ref([
               :class="{
                 'bg-dune-900 border-dune-800': active,
               }"
+              @mouseup="close"
             >
               <Icon
                 :name="link.icon"
@@ -109,6 +111,7 @@ const actions = ref([
               :class="{
                 'bg-dune-900 border-dune-800': active,
               }"
+              @mouseup="close"
             >
               <Icon
                 :name="action.icon"
@@ -124,6 +127,7 @@ const actions = ref([
                 'bg-dune-900 border-dune-800': active,
               }"
               @click="action.callback"
+              @mouseup="close"
             >
               <Icon
                 :name="action.icon"
