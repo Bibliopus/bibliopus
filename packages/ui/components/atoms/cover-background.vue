@@ -15,7 +15,7 @@ const rowCount = computed(() => Math.ceil(height.value / 145));
 const booksApiUrl = useRuntimeConfig().public.booksApiUrl;
 
 // Init covers
-const { data: covers }: { data: Ref<any> } = await useFetch(
+const { data: covers }: { data: Ref<any> } = await useLazyFetch(
   `${booksApiUrl}/covers/random?amount=${columnCount.value * rowCount.value}`,
 );
 
@@ -31,7 +31,7 @@ const imageColumns = computed(() => {
 watch(
   [columnCount, rowCount],
   () => {
-    useFetch(
+    useLazyFetch(
       `${booksApiUrl}/covers/random?amount=${columnCount.value * rowCount.value}`,
     ).then(
       ({ data }) => covers.value = data.value);

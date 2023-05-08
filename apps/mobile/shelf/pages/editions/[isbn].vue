@@ -176,6 +176,7 @@ const presentInCollectionsData = computed(() => {
         </h3>
         <AtomsSliderWrapper>
           <MoleculesCollectionSlider
+            class="!px-4"
             :collections="presentInCollectionsData"
           />
         </AtomsSliderWrapper>

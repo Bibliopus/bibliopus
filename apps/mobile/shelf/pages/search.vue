@@ -60,7 +60,10 @@ watch(searchValue, () => {
         <h2 class="section-title">
           Search history
         </h2>
-        <ul class="flex flex-wrap gap-2 max-h-[120px] overflow-hidden">
+        <ul
+          v-if="limitedTextsHistory && limitedTextsHistory.length > 0"
+          class="flex flex-wrap gap-2 max-h-[120px] overflow-hidden"
+        >
           <li
             v-for="(text, index) in limitedTextsHistory"
             :key="index"
@@ -71,12 +74,18 @@ watch(searchValue, () => {
             </AtomsTag>
           </li>
         </ul>
+        <AtomsError v-else>
+          No search done yet.
+        </AtomsError>
       </section>
       <section class="flex flex-col gap-y-4">
         <h2 class="section-title">
           Found recently
         </h2>
-        <ul class="flex flex-wrap gap-y-4">
+        <ul
+          v-if="editionsFromHistory && editionsFromHistory.length > 0"
+          class="flex flex-wrap gap-y-4"
+        >
           <li
             v-for="(edition, index) in editionsFromHistory"
             :key="index"
@@ -99,6 +108,9 @@ watch(searchValue, () => {
             </div>
           </li>
         </ul>
+        <AtomsError v-else>
+          No book found yet.
+        </AtomsError>
       </section>
     </div>
     <section v-if="searchValue" class="flex flex-col gap-y-4">

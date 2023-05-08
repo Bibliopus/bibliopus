@@ -11,7 +11,7 @@ const searchValue: Ref<string> = useState('search', () => '');
     <NuxtLink to="/">
       <img
         src="~/assets/img/logo.svg"
-        class="w-9"
+        class="w-9 select-none"
       >
     </NuxtLink>
     <AtomsInputSearch

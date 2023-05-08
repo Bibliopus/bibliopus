@@ -37,7 +37,7 @@ const authorsNames = computed(() => props.authors.map(author => author).join(', 
       v-else-if="cover"
       class="rounded w-[80px] object-cover aspect-[180/270] ml-4"
       :src="cover"
-      alt="#"
+      :alt="`Cover of ${title}`"
     >
     <div
       v-else
@@ -46,7 +46,7 @@ const authorsNames = computed(() => props.authors.map(author => author).join(', 
       <Icon
         name="ph-image"
         size="28"
-        class="text-dune-900 group-hover:800"
+        class="text-dune-900 group-hover:text-dune-800"
       />
     </div>
   </NuxtLink>
