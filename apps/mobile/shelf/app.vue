@@ -24,6 +24,7 @@ useHead({
 
 <template>
   <VitePwaManifest />
+  <NuxtLoadingIndicator color="#B0A898" />
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>
