@@ -83,7 +83,7 @@ watch(searchValue, () => {
           Found recently
         </h2>
         <ul
-          v-if="editionsFromHistory && editionsFromHistory.length > 0"
+          v-if="editionsHistory && editionsHistory.length > 0"
           class="flex flex-wrap gap-y-4"
         >
           <li
