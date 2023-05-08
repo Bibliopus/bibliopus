@@ -19,7 +19,7 @@ withDefaults(defineProps<{
         <UseImage
           v-if="covers[0]"
           :src="covers[0]"
-          class="relative rounded h-[150px] object-cover aspect-[180/270] -rotate-6 z-10 select-none"
+          class="relative rounded h-[150px] object-cover aspect-[180/270] -rotate-6 z-10 select-none bg-dune-800 group-hover:bg-dune-600 animate-fade-in"
           :class="{
             'mt-1': covers.length === 1,
             '-mx-2': covers.length === 2,
@@ -29,19 +29,13 @@ withDefaults(defineProps<{
             >
             <div
               class="relative rounded h-[150px] object-cover aspect-[180/270] -rotate-6 z-10 select-none bg-dune-800 animate-pulse"
-            >
-              <Icon
-                name="ph-image"
-                size="28"
-                class="text-dune-900 group-hover:800"
-              />
-            </div>
+            />
           </template>
         </UseImage>
         <UseImage
           v-if="covers[1]"
           :src="covers[1]"
-          class="relative rounded h-[150px] object-cover aspect-[180/270] -mx-10 z-20 mb-1 select-none"
+          class="relative rounded h-[150px] object-cover aspect-[180/270] -mx-10 z-20 mb-1 select-none bg-dune-800 group-hover:bg-dune-600 animate-fade-in"
           :class="{
             '-mx-2 mt-1 mb-0 rotate-6': covers.length === 2,
           }"
@@ -50,31 +44,19 @@ withDefaults(defineProps<{
             >
             <div
               class="relative rounded h-[150px] object-cover aspect-[180/270] -mx-10 z-20 mb-1 select-none bg-dune-800 animate-pulse"
-            >
-              <Icon
-                name="ph-image"
-                size="28"
-                class="text-dune-900 group-hover:800"
-              />
-            </div>
+            />
           </template>
         </UseImage>
         <UseImage
           v-if="covers[2]"
           :src="covers[2]"
-          class="relative rounded h-[150px] object-cover aspect-[180/270] rotate-6 z-30 select-none"
+          class="relative rounded h-[150px] object-cover aspect-[180/270] rotate-6 z-30 select-none bg-dune-800 group-hover:bg-dune-600 animate-fade-in"
         >
           <template #loading>
             >
             <div
               class="relative rounded h-[150px] object-cover aspect-[180/270] rotate-6 z-30 select-none bg-dune-800 animate-pulse"
-            >
-              <Icon
-                name="ph-image"
-                size="28"
-                class="text-dune-900 group-hover:800"
-              />
-            </div>
+            />
           </template>
         </UseImage>
       </div>

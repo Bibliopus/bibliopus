@@ -50,6 +50,20 @@ export default {
         'dune-900': '#2A2822',
         'dune-950': '#1D1C16',
       },
+      keyframes: {
+        'fade-in': {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        'fade-out': {
+          '0%': { opacity: '1' },
+          '100%': { opacity: '0' },
+        },
+      },
+      animation: {
+        'fade-in': 'fade-in 500ms ease-in-out',
+        'fade-out': 'fade-out 500ms ease-in-out',
+      },
     },
   },
 } satisfies Config;

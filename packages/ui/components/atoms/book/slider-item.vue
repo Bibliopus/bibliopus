@@ -20,7 +20,7 @@ const authorsNames = computed(() => props.authors.map(author => author).join(', 
     />
     <img
       v-else-if="cover"
-      class="aspect-[180/270] rounded w-[180px] object-cover"
+      class="aspect-[180/270] rounded w-[180px] object-cover bg-dune-800 group-hover:bg-dune-600 animate-fade-in"
       :src="cover"
       :alt="`Cover of ${title}`"
     >
