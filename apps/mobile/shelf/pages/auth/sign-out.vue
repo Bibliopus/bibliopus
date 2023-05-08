@@ -7,11 +7,13 @@ definePageMeta({
 useHead({ title: 'Sign out' });
 
 const { auth } = useSupabaseAuthClient();
-const { error } = await auth.signOut();
-if (error)
-  throw error;
-else
-  navigateTo('/auth/sign-up');
+await auth.signOut();
+
+const interval = useInterval(100);
+watch(interval, async () => {
+  if (!(await auth.getUser()).data.user)
+    navigateTo('/auth/sign-up');
+});
 </script>
 
 <template>
