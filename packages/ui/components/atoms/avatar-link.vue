@@ -18,7 +18,7 @@ withDefaults(
 <template>
   <NuxtLink :to="to">
     <Avatar
-      :size="40"
+      :size="size"
       :variant="variant"
       :name="seed"
     />
