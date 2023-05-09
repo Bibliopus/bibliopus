@@ -39,10 +39,10 @@ const authorsNames = computed(() => props.authors.map(author => author).join(', 
       />
     </div>
 
-    <p class="text-sm text-dune-300 mt-2 line-clamp-1">
+    <p class="text-sm text-dune-300 mt-2 max-w-[180px] line-clamp-1">
       {{ authorsNames }}
     </p>
-    <h3 class="text-dune-50 line-clamp-1">
+    <h3 class="text-dune-50 max-w-[180px] line-clamp-1">
       {{ title }}
     </h3>
   </NuxtLink>

@@ -48,6 +48,18 @@ export const useCollection = () => {
       return data;
     });
 
+  const getSharingCollection = async () =>
+    await useAsyncData('collection-sharing', async () => {
+      const { data } = await client
+        .from('collections')
+        .select('id, name, user')
+        .eq('name', 'Sharing')
+        .eq('is_custom', false)
+        .eq('user', (await getUser()).data.value?.id)
+        .maybeSingle();
+      return data;
+    });
+
   const getCollections = async (ids: number[]) =>
     await useAsyncData(`collections-${ids.join('-')}`, async () => {
       const { data } = await client
@@ -124,12 +136,33 @@ export const useCollection = () => {
       return data;
     });
 
+  const getUserHasEdition = async (userId: string, isbn: string) =>
+    await useAsyncData(`user-${userId}-has-${isbn}`, async () => {
+      const { data } = await client
+        .from('user_editions')
+        .select()
+        .eq('edition', isbn)
+        .eq('user', userId)
+        .maybeSingle();
+      return !!data;
+    });
+
+  const getUsersSharingEdition = async (isbn: string) =>
+    await useAsyncData(`sharing-${isbn}`, async () => {
+      const { data } = await client
+        .from('shared_editions')
+        .select('user, first_name, last_name')
+        .eq('edition', isbn);
+      return data;
+    });
+
   return {
     getCollection,
     getCollections,
     getToReadCollection,
     getReadingCollection,
     getReadCollection,
+    getSharingCollection,
     getCollectionsFromUser,
     getAuthUserCollections,
     getCollectionsFromEdition,
@@ -138,5 +171,7 @@ export const useCollection = () => {
     isEditionInCollection,
     toggleEditionInCollection,
     getCollectionCovers,
+    getUserHasEdition,
+    getUsersSharingEdition,
   };
 };
