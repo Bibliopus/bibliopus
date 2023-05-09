@@ -10,10 +10,12 @@ const {
   getReadCollection,
   getReadingCollection,
   getToReadCollection,
+  getSharingCollection,
   toggleEditionInCollection,
   isEditionInCollection,
   getCollectionsFromEdition,
   getCollectionCovers,
+  getUsersSharingEdition,
 } = useCollection();
 const { addToHistory } = useSearchHistory();
 const { getUserProfile } = useUser();
@@ -40,6 +42,7 @@ const authorsNames = computed(() => book.value.authors.join(', '));
 const { data: readCollection } = await getReadCollection();
 const { data: readingCollection } = await getReadingCollection();
 const { data: toReadCollection } = await getToReadCollection();
+const { data: sharingCollection } = await getSharingCollection();
 
 const { data: isRead, refresh: readRefresh, pending: readPending } = readCollection.value
   ? await isEditionInCollection(readCollection.value.id, book.value.isbn)
@@ -49,6 +52,9 @@ const { data: isReading, refresh: readingRefresh, pending: readingPending } = re
   : { data: ref(false), refresh: () => {}, pending: ref(false) };
 const { data: isToRead, refresh: toReadRefresh, pending: toReadPending } = toReadCollection.value
   ? await isEditionInCollection(toReadCollection.value.id, book.value.isbn)
+  : { data: ref(false), refresh: () => {}, pending: ref(false) };
+const { data: isSharing, refresh: sharingRefresh, pending: sharingPending } = sharingCollection.value
+  ? await isEditionInCollection(sharingCollection.value.id, book.value.isbn)
   : { data: ref(false), refresh: () => {}, pending: ref(false) };
 
 const toggleInCollection = async (collection: {
@@ -64,6 +70,8 @@ const toggleInCollection = async (collection: {
       isReading.value = inCollection;
     else if (collection.name === 'To read')
       isToRead.value = inCollection;
+    else if (collection.name === 'Sharing')
+      isSharing.value = inCollection;
   }
 };
 
@@ -96,6 +104,17 @@ const presentInCollectionsData = computed(() => {
     });
   }
   return data;
+});
+
+const { data: usersSharing } = await getUsersSharingEdition(book.value.isbn);
+
+const usersSharingNames = computed(() => {
+  const names: string[] = [];
+  if (!usersSharing.value)
+    return names;
+  for (const user of usersSharing.value)
+    names.push(`${user.first_name} ${user.last_name}`);
+  return names;
 });
 </script>
 
@@ -163,6 +182,14 @@ const presentInCollectionsData = computed(() => {
         >
           Read
         </AtomsCollectionButton>
+        <AtomsCollectionButton
+          icon="ph-swap"
+          :active="isSharing ?? false"
+          :pending="sharingPending"
+          @click="toggleInCollection(sharingCollection)"
+        >
+          Share
+        </AtomsCollectionButton>
       </section>
       <section class="flex flex-col gap-4">
         <h3 class="section-title">
@@ -182,6 +209,21 @@ const presentInCollectionsData = computed(() => {
             :collections="presentInCollectionsData"
           />
         </AtomsSliderWrapper>
+      </section>
+      <section class="flex flex-col gap-4">
+        <h3 class="section-title">
+          Shared by
+        </h3>
+        <MoleculesBookSharedBy
+          v-if="usersSharingNames.length > 0"
+          :users="usersSharingNames"
+          to="/"
+        />
+        <AtomsError
+          v-else
+        >
+          No one is sharing this edition yet.
+        </AtomsError>
       </section>
     </div>
   </div>
