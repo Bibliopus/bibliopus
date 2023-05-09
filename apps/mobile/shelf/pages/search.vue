@@ -27,7 +27,7 @@ const search = async () => {
   });
 };
 
-const { data: editionsFromHistory, error: historyError } = editionsHistory.value.length > 0
+const { data: editionsFromHistory, error: historyError, pending: historyPending } = editionsHistory.value.length > 0
   ? await getEditions(editionsHistory.value.map(edition => edition.value))
   : { data: ref([]), error: ref(new Error('Nothing found yet.')) };
 
@@ -86,6 +86,9 @@ watch(searchValue, () => {
           v-if="editionsHistory && editionsHistory.length > 0"
           class="flex flex-wrap gap-y-4"
         >
+          <li v-if="historyPending" class="w-full">
+            <AtomsLoading />
+          </li>
           <li
             v-for="(edition, index) in editionsFromHistory"
             :key="index"
@@ -98,14 +101,11 @@ watch(searchValue, () => {
               :authors="edition.authors"
               :cover="edition.cover"
             />
-            <div v-else-if="historyError">
-              <AtomsError>
-                {{ historyError.message }}
-              </AtomsError>
-            </div>
-            <div v-else>
-              <AtomsLoading />
-            </div>
+          </li>
+          <li v-if="historyError" class="w-full">
+            <AtomsError>
+              {{ historyError.message }}
+            </AtomsError>
           </li>
         </ul>
         <AtomsError v-else>
