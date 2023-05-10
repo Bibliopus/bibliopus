@@ -18,7 +18,7 @@ export const useUser = () => {
         id = (await getUser()).data.value?.id;
       const { data } = await client
         .from('profiles')
-        .select('id, first_name, last_name, email')
+        .select('id, first_name, last_name, email, joined_at')
         .eq('id', id)
         .single();
       return data;

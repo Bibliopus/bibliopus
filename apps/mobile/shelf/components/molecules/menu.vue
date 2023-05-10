@@ -16,11 +16,13 @@ withDefaults(
 
 const feedbackOpen = ref(false);
 const { sendUserFeedback } = useFeedback();
+const { getUser } = useUser();
+const { data: user } = await getUser();
 
 const links = ref([
   {
     name: 'Profile',
-    href: '/',
+    href: `/users/${user.value?.id}`,
     icon: 'ph:user',
   },
   {

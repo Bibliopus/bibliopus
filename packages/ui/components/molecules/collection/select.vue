@@ -29,7 +29,7 @@ defineEmits<{
       v-if="count[selected]"
       class="text-dune-300"
     >
-      {{ count[selected] }} editions
+      {{ count[selected] }} edition{{ count[selected] === 1 ? '' : 's' }}
     </p>
     <AtomsSliderWrapper v-if="editions.length && !vertical">
       <MoleculesBookSlider
