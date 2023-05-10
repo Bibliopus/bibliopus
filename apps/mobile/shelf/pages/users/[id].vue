@@ -5,22 +5,15 @@ definePageMeta({
 useHead({ title: 'Home' });
 
 const { getUserRecentlyAddedEditions, getEditionsFromCollection, getEditionCountFromCollection } = useEdition();
-const { getCollectionsFromUser } = useCollection();
-const { getUser } = useUser();
+const { getCollectionsFromUser, getSharingCollection } = useCollection();
+const { getUserProfile } = useUser();
 
-const searchValue: Ref<string> = useState('search');
-searchValue.value = '';
+const { params } = useRoute();
+const userId = params.id as string;
 
-const { data: user } = await getUser();
-const { data: recentlyAddedEditions } = user.value ? await getUserRecentlyAddedEditions(user.value?.id) : { data: ref([]) };
-
-const { data: userCollections } = await useAsyncData(async () => {
-  if (user.value) {
-    const { data } = await getCollectionsFromUser(user.value?.id);
-    return data.value;
-  }
-  return [];
-});
+const { data: profile } = await getUserProfile(userId);
+const { data: recentlyAddedEditions } = await getUserRecentlyAddedEditions(userId);
+const { data: userCollections } = await getCollectionsFromUser(userId);
 
 const { data: inCollectionCount } = await useAsyncData(async () => {
   const editionByCollection: { [id: string]: number } = {};
@@ -43,6 +36,14 @@ const collections = computed(() => {
   return [];
 });
 
+const { data: sharingCollection } = await getSharingCollection(userId);
+const { data: sharingEditions } = await useAsyncData(async () => {
+  if (sharingCollection.value)
+    return (await getEditionsFromCollection(sharingCollection.value.id)).data.value;
+  return [];
+});
+const sharingCount = computed(() => sharingEditions.value?.length ?? 0);
+
 const selectedCollection = collections.value ? ref(collections.value[0].id) : ref(null);
 const { data: selectedEditions, refresh: selectedEditionsRefresh } = await useAsyncData(async () => {
   if (selectedCollection.value)
@@ -58,6 +59,11 @@ const setSelectedCollection = (collectionId: number) => {
 
 <template>
   <div class="flex flex-col my-8 gap-8">
+    <MoleculesUserProfileCard
+      :first-name="profile?.first_name ?? ''"
+      :last-name="profile?.last_name ?? ''"
+      :joined-at="profile?.joined_at ?? ''"
+    />
     <div class="flex flex-col gap-4">
       <h2 class="section-title">
         Recently added
@@ -71,12 +77,31 @@ const setSelectedCollection = (collectionId: number) => {
         :cover="edition.cover"
       />
       <AtomsError v-if="recentlyAddedEditions.length === 0">
-        Your didn't add any edition yet.
+        No added edition yet.
       </AtomsError>
     </div>
     <div class="flex flex-col gap-4">
       <h2 class="section-title">
-        In your collections
+        Sharing
+      </h2>
+      <p class="text-dune-300">
+        {{ sharingCount }} edition{{ sharingCount === 1 ? '' : 's' }}
+      </p>
+      <AtomsBookItem
+        v-for="(edition, index) in sharingEditions"
+        :key="index"
+        :isbn="edition.isbn"
+        :title="edition.title"
+        :authors="edition.authors"
+        :cover="edition.cover"
+      />
+      <AtomsError v-if="sharingEditions?.length === 0">
+        Not sharing any edition yet.
+      </AtomsError>
+    </div>
+    <div class="flex flex-col gap-4">
+      <h2 class="section-title">
+        Collections
       </h2>
       <MoleculesCollectionSelect
         :selected="selectedCollection"

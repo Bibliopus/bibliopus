@@ -12,50 +12,50 @@ export const useCollection = () => {
       return data;
     });
 
-  const getToReadCollection = async () =>
+  const getToReadCollection = async (userId?: string) =>
     await useAsyncData('collection-toread', async () => {
       const { data } = await client
         .from('collections')
         .select('id, name, user')
         .eq('name', 'To read')
         .eq('is_custom', false)
-        .eq('user', (await getUser()).data.value?.id)
+        .eq('user', userId ?? (await getUser()).data.value?.id)
         .maybeSingle();
       return data;
     });
 
-  const getReadingCollection = async () =>
+  const getReadingCollection = async (userId?: string) =>
     await useAsyncData('collection-reading', async () => {
       const { data } = await client
         .from('collections')
         .select('id, name, user')
         .eq('name', 'Reading')
         .eq('is_custom', false)
-        .eq('user', (await getUser()).data.value?.id)
+        .eq('user', userId ?? (await getUser()).data.value?.id)
         .maybeSingle();
       return data;
     });
 
-  const getReadCollection = async () =>
+  const getReadCollection = async (userId?: string) =>
     await useAsyncData('collection-read', async () => {
       const { data } = await client
         .from('collections')
         .select('id, name, user')
         .eq('name', 'Read')
         .eq('is_custom', false)
-        .eq('user', (await getUser()).data.value?.id)
+        .eq('user', userId ?? (await getUser()).data.value?.id)
         .maybeSingle();
       return data;
     });
 
-  const getSharingCollection = async () =>
+  const getSharingCollection = async (userId?: string) =>
     await useAsyncData('collection-sharing', async () => {
       const { data } = await client
         .from('collections')
         .select('id, name, user')
         .eq('name', 'Sharing')
         .eq('is_custom', false)
-        .eq('user', (await getUser()).data.value?.id)
+        .eq('user', userId ?? (await getUser()).data.value?.id)
         .maybeSingle();
       return data;
     });
