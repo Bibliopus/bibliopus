@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { UseImage } from '@vueuse/components';
+import { promiseTimeout } from '@vueuse/core';
 
 withDefaults(defineProps<{
   mode?: 'home' | 'auth'
@@ -15,9 +16,11 @@ const rowCount = computed(() => Math.ceil(height.value / 145));
 const booksApiUrl = useRuntimeConfig().public.booksApiUrl;
 
 // Init covers
-const { data: covers }: { data: Ref<any> } = await useLazyFetch(
+const { data: covers } = await useLazyFetch(
   `${booksApiUrl}/covers/random?amount=${columnCount.value * rowCount.value}`,
 );
+
+const coversPending = ref(true);
 
 // Create a computed property to get the covers in a 2D array named columns
 const imageColumns = computed(() => {
@@ -37,6 +40,13 @@ watch(
       ({ data }) => covers.value = data.value);
   },
 );
+
+watch([width, height], async () => {
+  if (width.value && height.value) {
+    await promiseTimeout(100);
+    coversPending.value = false;
+  }
+});
 </script>
 
 <template>
@@ -53,7 +63,10 @@ watch(
       'before:from-dune-950/95 before:via-dune-950/80 before:to-dune-950 before:to-60%': mode === 'auth',
     }"
   >
-    <div class="flex gap-4 absolute w-max left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rotate-12">
+    <div
+      v-if="!coversPending"
+      class="flex gap-4 absolute w-max left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rotate-12 animate-fade-in"
+    >
       <div
         v-for="(imageRows, column) in imageColumns"
         :key="column"
