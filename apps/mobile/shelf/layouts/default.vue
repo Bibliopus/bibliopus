@@ -6,3 +6,9 @@
     </main>
   </div>
 </template>
+
+<style>
+html {
+  @apply overflow-y-scroll;
+}
+</style>
