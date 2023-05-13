@@ -24,7 +24,7 @@ defineEmits<{
 <template>
   <input
     :type="type"
-    class="rounded w-full bg-dune-50 p-3"
+    class="rounded w-full bg-dune-50 p-3 text-dune-950"
     :placeholder="placeholder"
     :value="modelValue"
     :name="name"

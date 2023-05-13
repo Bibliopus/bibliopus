@@ -25,7 +25,7 @@ defineEmits<{
 
 <template>
   <textarea
-    class="rounded w-full bg-dune-50 p-3"
+    class="rounded w-full bg-dune-50 p-3 text-dune-950"
     :class="{
       'resize-none': resize === 'none',
       'resize-vertical': resize === 'vertical',
