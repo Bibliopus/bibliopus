@@ -44,7 +44,7 @@ const { data: sharingEditions } = await useAsyncData(async () => {
 });
 const sharingCount = computed(() => sharingEditions.value?.length ?? 0);
 
-const selectedCollection = collections.value ? ref(collections.value[0].id) : ref(null);
+const selectedCollection = collections.value && collections.value.length > 0 ? ref(collections.value[0].id) : ref(null);
 const { data: selectedEditions, refresh: selectedEditionsRefresh } = await useAsyncData(async () => {
   if (selectedCollection.value)
     return (await getEditionsFromCollection(selectedCollection.value)).data.value;
@@ -84,7 +84,7 @@ const setSelectedCollection = (collectionId: number) => {
       <h2 class="section-title">
         Sharing
       </h2>
-      <p class="text-dune-300">
+      <p v-if="sharingEditions?.length && sharingEditions.length > 0" class="text-dune-300">
         {{ sharingCount }} edition{{ sharingCount === 1 ? '' : 's' }}
       </p>
       <AtomsBookItem
@@ -104,11 +104,15 @@ const setSelectedCollection = (collectionId: number) => {
         Collections
       </h2>
       <MoleculesCollectionSelect
+        v-if="collections?.length > 0"
         :selected="selectedCollection"
         :collections="collections ?? []"
         :editions="selectedEditions as any[] ?? []"
         @update:selected="setSelectedCollection($event)"
       />
+      <AtomsError v-else>
+        All your collections are empty.
+      </AtomsError>
     </div>
   </div>
 </template>

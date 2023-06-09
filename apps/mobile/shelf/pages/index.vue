@@ -43,7 +43,7 @@ const collections = computed(() => {
   return [];
 });
 
-const selectedCollection = collections.value ? ref(collections.value[0].id) : ref(null);
+const selectedCollection = collections.value && collections.value.length > 0 ? ref(collections.value[0].id) : ref(null);
 const { data: selectedEditions, refresh: selectedEditionsRefresh } = await useAsyncData(async () => {
   if (selectedCollection.value)
     return (await getEditionsFromCollection(selectedCollection.value)).data.value;
@@ -79,11 +79,15 @@ const setSelectedCollection = (collectionId: number) => {
         In your collections
       </h2>
       <MoleculesCollectionSelect
+        v-if="collections.length > 0"
         :selected="selectedCollection"
         :collections="collections ?? []"
         :editions="selectedEditions as any[] ?? []"
         @update:selected="setSelectedCollection($event)"
       />
+      <AtomsError v-else>
+        All your collections are empty.
+      </AtomsError>
     </div>
   </div>
 </template>
