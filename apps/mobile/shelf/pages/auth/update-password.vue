@@ -1,28 +1,29 @@
 <script setup lang="ts">
 definePageMeta({
   layout: 'guest',
-  middleware: ['guest'],
+  middleware: ['auth'],
 });
 
-useHead({ title: 'Sign in' });
+useHead({ title: 'Update password' });
 
 const { auth } = useSupabaseAuthClient();
-const email = ref('');
 const password = ref('');
+const passwordConfirmation = ref('');
 const errorMessage = ref('');
 
-const signInAndRedirect = async (event: Event) => {
+const passwordIsInvalid = computed(() => unref(password) !== unref(passwordConfirmation));
+
+const resetPassword = async (event: Event) => {
   event.preventDefault();
-  const { error } = await auth.signInWithPassword({
-    email: unref(email),
+  if (passwordIsInvalid.value)
+    return errorMessage.value = 'Passwords do not match.';
+  const { error } = await auth.updateUser({
     password: unref(password),
   });
 
-  if (error) {
-    if (error.message === 'Invalid login credentials')
-      errorMessage.value = 'Could not sign in. Please check your credentials.';
-  }
-  else { await navigateTo('/'); }
+  if (error)
+    errorMessage.value = 'Could not reset password. Please check that your password is valid.';
+  else await navigateTo('/');
 };
 </script>
 
@@ -39,14 +40,10 @@ const signInAndRedirect = async (event: Event) => {
         Bibliopus
       </h1>
     </header>
-    <form class="flex flex-col w-full gap-4" @submit="signInAndRedirect">
-      <AtomsInputText
-        v-model="email"
-        type="email"
-        placeholder="Email"
-        name="email"
-        class="input input-bordered w-full"
-      />
+    <form class="flex flex-col w-full gap-4" @submit="resetPassword">
+      <p class="text-dune-100 text-sm">
+        To request a reset password email, please fill the form below.
+      </p>
       <AtomsInputText
         v-model="password"
         type="password"
@@ -54,18 +51,19 @@ const signInAndRedirect = async (event: Event) => {
         name="current-password"
         class="input input-bordered w-full"
       />
+      <AtomsInputText
+        v-model="passwordConfirmation"
+        type="password"
+        placeholder="Password confirmation"
+        name="current-password-confirmation"
+        class="input input-bordered w-full"
+      />
       <AtomsError v-if="errorMessage">
         {{ errorMessage }}
       </AtomsError>
-      <NuxtLink to="/auth/reset-password" class="underline text-dune-300 text-sm">
-        Forgot your password?
-      </NuxtLink>
       <AtomsInputButton type="submit">
-        Sign in
+        Update password
       </AtomsInputButton>
-      <NuxtLink to="/auth/sign-up" class="underline text-dune-300 text-sm">
-        No account yet? Sign up.
-      </NuxtLink>
     </form>
   </div>
 </template>

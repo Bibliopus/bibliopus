@@ -77,12 +77,12 @@ const signUpAndRedirect = async (event: Event) => {
       <AtomsError v-if="errorMessage">
         {{ errorMessage }}
       </AtomsError>
-      <NuxtLink to="/auth/sign-in" class="underline text-dune-300 text-sm">
-        Already have an account? Sign in.
-      </NuxtLink>
       <AtomsInputButton type="submit">
         Join
       </AtomsInputButton>
+      <NuxtLink to="/auth/sign-in" class="underline text-dune-300 text-sm">
+        Already have an account? Sign in.
+      </NuxtLink>
     </form>
   </div>
 </template>
