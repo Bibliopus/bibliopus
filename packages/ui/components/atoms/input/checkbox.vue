@@ -36,7 +36,7 @@ defineEmits<{
       <Icon
         name="ph:check-bold"
         size="16"
-        class="opacity-0 transition-opacity"
+        class="opacity-0 transition-opacity text-dune-950"
         :class="{ '!opacity-100 ': modelValue }"
       />
     </div>
