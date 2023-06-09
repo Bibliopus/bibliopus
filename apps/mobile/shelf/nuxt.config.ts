@@ -17,6 +17,7 @@ export default defineNuxtConfig({
       supabaseUrl: '',
       supabaseKey: '',
       booksApiUrl: '',
+      url: '',
     },
   },
   pwa: {
