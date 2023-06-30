@@ -6,7 +6,7 @@ useHead({ title: 'Home' });
 
 const { getUserRecentlyAddedEditions, getEditionsFromCollection, getEditionCountFromCollection } = useEdition();
 const { getCollectionsFromUser, getSharingCollection } = useCollection();
-const { getUserProfile } = useUser();
+const { getUserProfile, getUser } = useUser();
 
 const { params } = useRoute();
 const userId = params.id as string;
@@ -14,6 +14,10 @@ const userId = params.id as string;
 const { data: profile } = await getUserProfile(userId);
 const { data: recentlyAddedEditions } = await getUserRecentlyAddedEditions(userId);
 const { data: userCollections } = await getCollectionsFromUser(userId);
+
+const isAuthProfile = await useAsyncData(async () => {
+  return userId === (await getUser()).data.value?.id;
+});
 
 const { data: inCollectionCount } = await useAsyncData(async () => {
   const editionByCollection: { [id: string]: number } = {};
@@ -60,7 +64,7 @@ const setSelectedCollection = (collectionId: number) => {
 <template>
   <div class="flex flex-col my-8 gap-8">
     <MoleculesUserProfileCard
-      :id="userId"
+      :id="isAuthProfile ? null : userId"
       :first-name="profile?.first_name ?? ''"
       :last-name="profile?.last_name ?? ''"
       :joined-at="profile?.joined_at ?? ''"
