@@ -38,8 +38,9 @@ const formattedJoinedAt = computed(() => {
       </p>
       <AtomsLink
         v-if="id"
-        class="btn-small"
         :to="`/users/messages/${id}`"
+        small
+        class="w-max"
       >
         Send a message
       </AtomsLink>

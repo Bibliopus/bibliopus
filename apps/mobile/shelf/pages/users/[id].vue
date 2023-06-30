@@ -15,7 +15,7 @@ const { data: profile } = await getUserProfile(userId);
 const { data: recentlyAddedEditions } = await getUserRecentlyAddedEditions(userId);
 const { data: userCollections } = await getCollectionsFromUser(userId);
 
-const isAuthProfile = await useAsyncData(async () => {
+const { data: isAuthProfile } = await useAsyncData(async () => {
   return userId === (await getUser()).data.value?.id;
 });
 

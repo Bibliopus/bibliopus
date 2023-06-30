@@ -217,7 +217,7 @@ const usersSharingNames = computed(() => {
         <MoleculesBookSharedBy
           v-if="usersSharingNames.length > 0"
           :users="usersSharingNames"
-          to="/"
+          :to="`/editions/${book.isbn}/users`"
         />
         <AtomsError
           v-else

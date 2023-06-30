@@ -48,8 +48,8 @@ subscribeToMessages([
     >
       <Avatar
         :size="40"
-        :variant="variant"
-        :name="fullname"
+        variant="marble"
+        :name="`${profile.first_name} ${profile.last_name}`"
         class="mr-2"
       />
       <div class="grow">
