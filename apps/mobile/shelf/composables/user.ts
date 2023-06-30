@@ -18,9 +18,18 @@ export const useUser = () => {
         id = (await getUser()).data.value?.id;
       const { data } = await client
         .from('profiles')
-        .select('id, first_name, last_name, email, joined_at')
+        .select('id, first_name, last_name, joined_at')
         .eq('id', id)
         .single();
+      return data;
+    });
+
+  const getUsersProfiles = async (ids: string[]) =>
+    await useAsyncData(`profiles-${ids.join('-')}`, async () => {
+      const { data } = await client
+        .from('profiles')
+        .select('id, first_name, last_name, joined_at')
+        .in('id', ids);
       return data;
     });
 
@@ -28,6 +37,7 @@ export const useUser = () => {
     getUser,
     isAuthenticated,
     getUserProfile,
+    getUsersProfiles,
     checkUser,
   };
 };

@@ -31,6 +31,10 @@
     @apply text-lg
   }
 
+  .btn-small {
+    @apply text-sm
+  }
+
   .section-title {
     @apply text-3xl text-dune-50;
   }
