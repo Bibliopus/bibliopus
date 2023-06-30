@@ -9,6 +9,6 @@
 
 <style>
 html {
-  @apply overflow-y-hidden;
+  @apply overflow-y-scroll;
 }
 </style>
