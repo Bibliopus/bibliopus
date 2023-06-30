@@ -56,7 +56,7 @@ export const useMessages = () => {
     });
   };
 
-  const sendMessage = async (user: string, message: string) => {
+  const sendMessage = async ({ user, message }: { user: string; message: string }) => {
     const authId = (await getUser()).data.value?.id;
     await client
       .from('messages')
