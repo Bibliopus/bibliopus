@@ -60,6 +60,7 @@ const setSelectedCollection = (collectionId: number) => {
 <template>
   <div class="flex flex-col my-8 gap-8">
     <MoleculesUserProfileCard
+      :id="userId"
       :first-name="profile?.first_name ?? ''"
       :last-name="profile?.last_name ?? ''"
       :joined-at="profile?.joined_at ?? ''"

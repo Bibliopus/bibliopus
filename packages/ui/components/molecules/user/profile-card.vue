@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Avatar from 'vue-boring-avatars';
 const props = withDefaults(defineProps<{
+  id: string
   firstName: string
   lastName: string
   variant?: 'beam' | 'bauhaus' | 'pixel' | 'ring' | 'marble' | 'sunset'
@@ -35,6 +36,12 @@ const formattedJoinedAt = computed(() => {
       <p class="text-dune-300 text-sm">
         Joined {{ formattedJoinedAt }}
       </p>
+      <AtomsLink
+        class="btn-small"
+        :to="`/users/messages/${id}`"
+      >
+        Send a message
+      </AtomsLink>
     </div>
   </div>
 </template>

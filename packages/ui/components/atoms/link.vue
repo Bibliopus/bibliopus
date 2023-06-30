@@ -4,10 +4,12 @@ withDefaults(
     type?: 'button' | 'text'
     to: string
     big?: boolean
+    small?: boolean
   }>(),
   {
     type: 'button',
     big: false,
+    small: false,
   },
 );
 </script>
@@ -17,7 +19,7 @@ withDefaults(
     v-if="type === 'button'"
     :to="to"
     class="btn"
-    :class="{ 'btn-big': big }"
+    :class="{ 'btn-big': big, 'btn-small': small }"
   >
     <slot />
   </NuxtLink>
