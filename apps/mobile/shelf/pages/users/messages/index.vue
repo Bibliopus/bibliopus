@@ -6,6 +6,8 @@ definePageMeta({
 });
 useHead({ title: 'Messages' });
 
+const router = useRouter();
+
 const formattedCreatedAt = (dateString: string) => {
   const date = new Date(dateString);
   return date.toLocaleDateString('en', {
@@ -61,6 +63,17 @@ const openMessageView = async (profile: any) => {
   messageViewOpen.value = true;
   messageViewScroll.value = true;
 };
+
+router.beforeEach((to, from, next) => {
+  if (messageViewOpen.value) {
+    messageViewOpen.value = false;
+    messageViewScroll.value = false;
+    next(false);
+  }
+  else {
+    next();
+  }
+});
 
 subscribeToMessages([
   refreshUsers,
