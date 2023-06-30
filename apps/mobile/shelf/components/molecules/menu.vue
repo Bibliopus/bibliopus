@@ -31,6 +31,11 @@ const links = ref([
     icon: 'ph:books',
   },
   {
+    name: 'Messages',
+    href: '/users/messages',
+    icon: 'ph:chat-dots',
+  },
+  {
     name: 'Settings',
     href: '/',
     icon: 'ph:gear',
