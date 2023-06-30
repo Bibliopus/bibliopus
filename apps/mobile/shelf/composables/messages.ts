@@ -39,7 +39,7 @@ export const useMessages = () => {
         .rpc('get_last_message_with_user', {
           authenticated_user: authId,
           interlocutor: user,
-        }).select('content').maybeSingle();
+        }).select('content, created_at').maybeSingle();
       return data;
     });
   };
