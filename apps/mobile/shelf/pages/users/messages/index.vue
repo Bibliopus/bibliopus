@@ -59,6 +59,7 @@ const openMessageView = async (profile: any) => {
   selectedProfile.value = profile;
   await refreshSelectedUserMessages();
   messageViewOpen.value = true;
+  messageViewScroll.value = true;
 };
 
 subscribeToMessages([
