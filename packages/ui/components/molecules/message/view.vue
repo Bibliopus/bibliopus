@@ -17,7 +17,7 @@ const emits = defineEmits<{
 
 const messageContent = ref('');
 const messagesContainer = ref<HTMLElement | null>(null);
-const { y } = useScroll(messagesContainer, { behavior: 'smooth' });
+const { y } = useScroll(messagesContainer, { behavior: 'auto' });
 
 const submitMessage = async (event: Event) => {
   event.preventDefault();
@@ -33,6 +33,11 @@ watch(() => props.scroll, () => {
     y.value = messagesContainer.value?.scrollHeight ?? 0;
     emits('update:scroll', false);
   }
+});
+
+watch(() => messagesContainer.value, () => {
+  y.value = messagesContainer.value?.scrollHeight ?? 0;
+  emits('update:scroll', false);
 });
 </script>
 

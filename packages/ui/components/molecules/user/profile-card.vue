@@ -38,7 +38,7 @@ const formattedJoinedAt = computed(() => {
       </p>
       <AtomsLink
         v-if="id"
-        :to="`/users/messages/${id}`"
+        :to="`/users/messages?user=${id}`"
         small
         class="mt-3 w-max"
       >

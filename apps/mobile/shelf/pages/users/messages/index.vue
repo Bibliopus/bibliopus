@@ -19,7 +19,7 @@ const formattedCreatedAt = (dateString: string) => {
   });
 };
 
-const { getUsersProfiles } = useUser();
+const { getUsersProfiles, getUserProfile } = useUser();
 const { getUsersFromMessages, subscribeToMessages, getLastMessage, getMessages, sendMessage } = useMessages();
 
 const { data: users, refresh: refreshUsers } = await getUsersFromMessages();
@@ -44,13 +44,24 @@ const formatMessages = (userId: string, messages: any) => {
 const messageViewOpen = ref(false);
 const selectedProfile: Ref<any> = ref(null);
 
+const queryUser = useRoute().query.user as string;
+if (queryUser) {
+  const { data: profile } = await getUserProfile(queryUser);
+  if (profile.value) {
+    selectedProfile.value = profile.value;
+    messageViewOpen.value = true;
+  }
+}
+
 const { data: selectedUserMessages, refresh: refreshSelectedUserMessages, pending } = await useAsyncData(async () => {
   if (selectedProfile.value) {
     const { data: messages } = await getMessages(selectedProfile.value.id);
-    return formatMessages(
-      selectedProfile.value.id,
-      messages.value,
-    );
+    if (messages.value) {
+      return formatMessages(
+        selectedProfile.value.id,
+        messages.value,
+      );
+    }
   }
   return [];
 });
@@ -61,13 +72,11 @@ const openMessageView = async (profile: any) => {
   selectedProfile.value = profile;
   await refreshSelectedUserMessages();
   messageViewOpen.value = true;
-  messageViewScroll.value = true;
 };
 
 router.beforeEach((to, from, next) => {
   if (messageViewOpen.value) {
     messageViewOpen.value = false;
-    messageViewScroll.value = false;
     next(false);
   }
   else {
