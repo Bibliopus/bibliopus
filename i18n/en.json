@@ -1,0 +1,61 @@
+{
+  "auth" : {
+    "email-placeholder" : "Enter you email...",
+    "sign-in" : {
+      "meta" : {
+        "title" : "Sign in"
+      },
+      "no-account" : "Don't have an account?",
+      "title" : "Welcome back!"
+    },
+    "sign-up" : {
+      "already-have-account" : "Already have an account?",
+      "meta" : {
+        "title" : "Sign up"
+      },
+      "title" : "Welcome!"
+    }
+  },
+  "common" : {
+    "app-name" : "Todo App",
+    "go-back" : "Go back to your tasks",
+    "manage-subscription" : "Manage your subscription",
+    "or" : "Or",
+    "sign-in" : "Sign In",
+    "sign-in-to-subscribe" : "Sign in to subscribe",
+    "sign-out" : "Sign out",
+    "sign-up" : "Sign up",
+    "subscribe" : "Subscribe"
+  },
+  "home" : {
+    "add-task" : "Add to tasks",
+    "message" : {
+      "auth" : "Seems like you have no tasks. Add one to get started!",
+      "guest" : "Seems like you have no tasks. Sign in to add some!"
+    },
+    "meta" : {
+      "description" : "An advanced Todo app created as an example for a battery included Nuxt based starter template.",
+      "title" : "Home"
+    },
+    "task-placeholder" : "What needs to be done?"
+  },
+  "perks" : {
+    "description" : "Subscribe to unlock all these features:",
+    "no-ads" : "No ads",
+    "title" : "ToDo Pro",
+    "unlimited-tasks" : "Unlimited tasks"
+  },
+  "subscribe" : {
+    "message" : {
+      "success" : "You successfully subscribed to ToDo Pro, enjoy!"
+    },
+    "meta" : {
+      "title" : "Subscribe to ToDo Pro"
+    }
+  },
+  "success" : {
+    "meta" : {
+      "title" : "Subscription success"
+    }
+  }
+}

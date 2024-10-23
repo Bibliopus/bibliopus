@@ -1,0 +1,61 @@
+{
+  "auth" : {
+    "email-placeholder" : "Entrez votre adresse e-mail...",
+    "sign-in" : {
+      "meta" : {
+        "title" : "Se connecter"
+      },
+      "no-account" : "Vous n'avez pas de compte ?",
+      "title" : "Content de vous revoir!"
+    },
+    "sign-up" : {
+      "already-have-account" : "Vous avez déjà un compte ?",
+      "meta" : {
+        "title" : "S'inscrire"
+      },
+      "title" : "Bienvenue!"
+    }
+  },
+  "common" : {
+    "app-name" : "Todo App",
+    "go-back" : "Revenir à vos tâches",
+    "manage-subscription" : "Gérez votre abonnement",
+    "or" : "Ou",
+    "sign-in" : "Se connecter",
+    "sign-in-to-subscribe" : "Se connecter pour s'abonner",
+    "sign-out" : "Déconnexion",
+    "sign-up" : "S'inscrire",
+    "subscribe" : "S'abonner"
+  },
+  "home" : {
+    "add-task" : "Ajouter aux tâches",
+    "message" : {
+      "auth" : "On dirait que vous n'avez aucune tâche. Ajoutez-en une pour commencer!",
+      "guest" : "On dirait que vous n'avez aucune tâche. Connectez-vous pour en ajouter !"
+    },
+    "meta" : {
+      "description" : "Une application Todo avancée créée à titre d'exemple pour un starter template Nuxt.",
+      "title" : "Accueil"
+    },
+    "task-placeholder" : "Que faut-il faire ?"
+  },
+  "perks" : {
+    "description" : "Souscrivez pour débloquer toutes ces fonctionnalités : ",
+    "no-ads" : "Pas de publicités",
+    "title" : "ToDo Pro",
+    "unlimited-tasks" : "Tâches illimitées"
+  },
+  "subscribe" : {
+    "message" : {
+      "success" : "Vous vous êtes abonné(e) avec succès à ToDo Pro, profitez-en ! "
+    },
+    "meta" : {
+      "title" : "S'abonner à ToDo Pro"
+    }
+  },
+  "success" : {
+    "meta" : {
+      "title" : "Abonnement réussi"
+    }
+  }
+}
